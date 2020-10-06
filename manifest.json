@@ -1,0 +1,24 @@
+{
+"manifest_version": 2,
+    "name": "Robux Worth Counter",
+    "description": "Display how much money worth of robux you have!",
+    "version": "1.1.0",
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+        "activeTab",
+        "storage"
+	],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.roblox.com/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
