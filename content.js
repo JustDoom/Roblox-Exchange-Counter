@@ -7,43 +7,10 @@ var currency;
 var nf = new Intl.NumberFormat();
  
 window.onload = function () {
- 
-	robuxCalculate();
-	robuxItemCalculate();
-	
- 
+	calculate();
 }
  
-function robuxItemCalculate() {
-	chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
-		if (result.robuxitemcheckbox === true){
-			if(document.body.contains(document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0])){
-				chrome.storage.local.get(['currency'], function(result) {
-					currency = result.currency;
-				});
-				robuxItemCost = document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML;
-				robuxItemCost = robuxItemCost.replace(/,/g, '');
-				money2 = robuxValue * robuxItemCost;
- 
-				let demo1 = () => {
-					money2 = parseFloat(money2);
-					money2 = money2.toFixed(2);
-					let rate = fx(money2).from("USD").to(currency);
-					money2 = rate.toFixed(2);
-					money2 = nf.format(money2);
-					document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = '$' + money2 + ' ' + currency;
-				}
- 
-				fetch('https://api.exchangeratesapi.io/latest?base=USD')
-					.then((resp) => resp.json())
-					.then((data) => fx.rates = data.rates)
-					.then(demo1);
-			}
-		}
-	});
-}
- 
-function robuxCalculate() {
+function calculate() {
 	chrome.storage.local.get(['robuxamountcheckbox'], function(result) {
 		if (result.robuxamountcheckbox === true){
 			chrome.storage.local.get(['currency'], function(result) {
@@ -68,7 +35,7 @@ function robuxCalculate() {
 				chrome.storage.local.get(['currencyworth'], function(result) {
 					if (result.currencyworth === true){
 						document.getElementById("nav-robux-amount").innerHTML = '$' + money + ' ' + currency;
-					}else{
+					} else {
 						document.getElementById("nav-robux-amount").innerHTML = '$' + money;
 					}
 				});
@@ -78,6 +45,33 @@ function robuxCalculate() {
 				.then((resp) => resp.json())
 				.then((data) => fx.rates = data.rates)
 				.then(demo)
+		}
+	});
+
+	chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
+		if (result.robuxitemcheckbox === true){
+			if(document.body.contains(document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0])){
+				chrome.storage.local.get(['currency'], function(result) {
+					currency = result.currency;
+				});
+				robuxItemCost = document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML;
+				robuxItemCost = robuxItemCost.replace(/,/g, '');
+				money2 = robuxValue * robuxItemCost;
+ 
+				let demo1 = () => {
+					money2 = parseFloat(money2);
+					money2 = money2.toFixed(2);
+					let rate = fx(money2).from("USD").to(currency);
+					money2 = rate.toFixed(2);
+					money2 = nf.format(money2);
+					document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = '$' + money2 + ' ' + currency;
+				}
+ 
+				fetch('https://api.exchangeratesapi.io/latest?base=USD')
+					.then((resp) => resp.json())
+					.then((data) => fx.rates = data.rates)
+					.then(demo1);
+			}
 		}
 	});
 }
