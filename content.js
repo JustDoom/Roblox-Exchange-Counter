@@ -6,41 +6,53 @@ var robuxValue = 0.0035;
 var currency;
 var nf = new Intl.NumberFormat();
  
+//Roblox page load
 window.onload = function () {
-	calculate();
-}
- 
-function calculate() {
+	//Get and set currency
+	chrome.storage.local.get(['currency'], function(result) {
+		currency = result.currency;
+	});
+
 	chrome.storage.local.get(['robuxamountcheckbox'], function(result) {
+		//Check if setting is true
 		if (result.robuxamountcheckbox === true){
-			chrome.storage.local.get(['currency'], function(result) {
-				currency = result.currency;
-			});
+			//Get robux amount
 			robux = document.getElementById("nav-robux-amount").innerHTML;
+			//Replace any commas
 			robux = robux.replace(/,/g, '');
+			//Calculate how much USD you have in robux
 			money = robuxValue * robux;
  
 			let demo = () => {
-				money = parseFloat(money);
-				money = money.toFixed(2);
+				//Check if currency is USD
 				if(currency === 'USD'){
+					//Parse float
 					money = parseFloat(money);
+					//Round money to 2 decimal points
 					money = money.toFixed(2);
 				} else {
+					//Exchange currency to chosen currency
 					let rate = fx(money).from("USD").to(currency);
+					//Round money to 2 decimal points
 					money = rate.toFixed(2);
 				}
-		
+				//Format money with commas
 				money = nf.format(money);
+				//Get currency worth (Show currency?)
 				chrome.storage.local.get(['currencyworth'], function(result) {
+					//If show currency is true
 					if (result.currencyworth === true){
+						//Change robux value to money worth with currency
 						document.getElementById("nav-robux-amount").innerHTML = '$' + money + ' ' + currency;
+					//else
 					} else {
+						//Change robux value to money worth
 						document.getElementById("nav-robux-amount").innerHTML = '$' + money;
 					}
 				});
 			}
  
+			//Get exchange values
 			fetch('https://api.exchangeratesapi.io/latest?base=USD')
 				.then((resp) => resp.json())
 				.then((data) => fx.rates = data.rates)
@@ -49,24 +61,44 @@ function calculate() {
 	});
 
 	chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
+		//Check if setting is true
 		if (result.robuxitemcheckbox === true){
 			if(document.body.contains(document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0])){
-				chrome.storage.local.get(['currency'], function(result) {
-					currency = result.currency;
-				});
+				//Get item cost
 				robuxItemCost = document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML;
+				//Replace any commas
 				robuxItemCost = robuxItemCost.replace(/,/g, '');
+				//Calculate how much USD you have in robux
 				money2 = robuxValue * robuxItemCost;
  
 				let demo1 = () => {
+					//Check if currency is USD
+				if(currency === 'USD'){
+					//Parse float
 					money2 = parseFloat(money2);
+					//Round money to 2 decimal points
 					money2 = money2.toFixed(2);
+				} else {
+					//Exchange currency to chosen currency
 					let rate = fx(money2).from("USD").to(currency);
+					//Round money to 2 decimal points
 					money2 = rate.toFixed(2);
+				}
 					money2 = nf.format(money2);
-					document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = '$' + money2 + ' ' + currency;
+					chrome.storage.local.get(['currencyworth'], function(result) {
+						//If show currency is true
+						if (result.currencyworth === true){
+							//Change robux value to money worth with currency
+							document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = '$' + money2 + ' ' + currency;
+						//else
+						} else {
+							//Change robux value to money worth
+							document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = '$' + money2;
+						}
+					});
 				}
  
+				//Get exchange values
 				fetch('https://api.exchangeratesapi.io/latest?base=USD')
 					.then((resp) => resp.json())
 					.then((data) => fx.rates = data.rates)
@@ -75,7 +107,7 @@ function calculate() {
 		}
 	});
 }
- 
+
 //Calculating currency stuff I copied from a website
 (function(root, undefined) {
  
