@@ -8,23 +8,42 @@ var nf = new Intl.NumberFormat();
 
 document.addEventListener('DOMContentLoaded', function () {
 
-	chrome.storage.local.get(['currency'], function(result) {
-		document.getElementById('currency').value = result.currency;
+	
+	
+
+	chrome.storage.local.get(['currency'], function(result) { 
+		if(typeof result.currency === "undefined"){
+			document.getElementById('currency').value = 'USD';
+		} else {
+			document.getElementById('currency').value = result.currency;
+		}
 	});
 
 	chrome.storage.local.get(['robuxamountcheckbox'], function(result) {
-		robux_amount_checkbox = result.robuxamountcheckbox;
-		document.getElementById('robux-amount-box').checked = robux_amount_checkbox;
+		if(typeof result.robuxamountcheckbox === "undefined"){
+			document.getElementById('robux-amount-box').checked = true;
+		} else {
+			robux_amount_checkbox = result.robuxamountcheckbox;
+			document.getElementById('robux-amount-box').checked = robux_amount_checkbox;
+		}
 	});
 
 	chrome.storage.local.get(['currencyworth'], function(result) {
-		currency_worth = result.currencyworth;
-		document.getElementById('currency-worth-box').checked = currency_worth;
+		if(typeof result.currencyworth === "undefined"){
+			document.getElementById('currency-worth-box').checked = true;
+		} else {
+			currency_worth = result.currencyworth;
+			document.getElementById('currency-worth-box').checked = currency_worth;
+		}
 	});
 
 	chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
-		robux_amount_checkbox = result.robuxitemcheckbox;
-		document.getElementById('robux-item-box').checked = robux_amount_checkbox;
+		if(typeof result.robuxitemcheckbox === "undefined"){
+			document.getElementById('robux-item-box').checked = true;
+		} else {
+			robux_amount_checkbox = result.robuxitemcheckbox;
+			document.getElementById('robux-item-box').checked = robux_amount_checkbox;
+		}//test
 	});
 
 	document.getElementById('robux-amount-box').onclick = function(){
