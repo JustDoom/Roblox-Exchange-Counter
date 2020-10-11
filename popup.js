@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		} else {
 			robux_amount_checkbox = result.robuxitemcheckbox;
 			document.getElementById('robux-item-box').checked = robux_amount_checkbox;
-		}//test
+		}
 	});
 
 	document.getElementById('robux-amount-box').onclick = function(){
