@@ -2,15 +2,16 @@ var currency;
 var robuxValue = 0.0035;
 var robux;
 var money;
+
 var robux_amount_checkbox = true;
 var currency_worth = true;
+
 var nf = new Intl.NumberFormat();
 
+//When everything is loaded
 document.addEventListener('DOMContentLoaded', function () {
 
-	
-	
-
+	//Get and set currency
 	chrome.storage.local.get(['currency'], function(result) { 
 		if(typeof result.currency === "undefined"){
 			document.getElementById('currency').value = 'USD';
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
+	//Get and set show robux amount checkbox
 	chrome.storage.local.get(['robuxamountcheckbox'], function(result) {
 		if(typeof result.robuxamountcheckbox === "undefined"){
 			document.getElementById('robux-amount-box').checked = true;
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
+	//Get and set show currency checkbox
 	chrome.storage.local.get(['currencyworth'], function(result) {
 		if(typeof result.currencyworth === "undefined"){
 			document.getElementById('currency-worth-box').checked = true;
@@ -37,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
+	//Get and set show robux worth on gamepasses/clothing checkbox
 	chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
 		if(typeof result.robuxitemcheckbox === "undefined"){
 			document.getElementById('robux-item-box').checked = true;
@@ -46,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
+	//Check/uncheck checkbox and save localstorage for show robux worth
 	document.getElementById('robux-amount-box').onclick = function(){
-
 		if (document.getElementById('robux-amount-box').checked == true){
 			chrome.storage.local.set({'robuxamountcheckbox': true});
 		} else {
@@ -55,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
+	//Check/uncheck checkbox and save localstorage for show worth currency
 	document.getElementById('currency-worth-box').onclick = function(){
-
 		if (document.getElementById('currency-worth-box').checked == true){
 			chrome.storage.local.set({'currencyworth': true});
 		} else {
@@ -64,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
+	//Check/uncheck checkbox and save localstorage for show worth on gamepasses/clothing
 	document.getElementById('robux-item-box').onclick = function(){
-
 		if (document.getElementById('robux-item-box').checked == true){
 			chrome.storage.local.set({'robuxitemcheckbox': true});
 		} else {
@@ -73,37 +77,72 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
+	//Get when currency is changed and save it
 	document.getElementById('currency').addEventListener('change', function() {
 		chrome.storage.local.set({'currency': document.getElementById('currency').value});
 	});
 
 	var textBox = document.getElementById('robuxAmount');
+
+	//When textbox is clicked
 	textBox.addEventListener('click', function () {
+		//If hhasnt been clicked
 		if (document.getElementById('robuxAmount').value === 'Amount Here') {
+			//Set to nothing
 			document.getElementById('robuxAmount').value = '';
 		}
 	}, false);
 
 	var checkPageButton = document.getElementById('clickIt');
+
+	//When convert is clicked
 	checkPageButton.addEventListener('click', function () {
+		//Get selected currency
 		chrome.tabs.getSelected(null, function (tab) {
+			//Get currency
 			chrome.storage.local.get(['currency'], function(result) {
 				currency = result.currency;
-			  });
+			});
+			
+			//Get robux amount
 			robux = document.getElementById('robuxAmount').value;
+
+			//Replace commas
 			robux = robux.replace(/,/g, '');
+
+			//Calculate robux
 			money = robuxValue * robux;
 
 			let demo = () => {
-				money = parseFloat(money);
-				money = money.toFixed(2);
-				let rate = fx(money).from("USD").to(currency);
-				money = rate.toFixed(2);
+				//Check if currency is USD
+				if(currency === 'USD'){
+					//Parse float
+					money = parseFloat(money);
+					//Round money to 2 decimal points
+					money = money.toFixed(2);
+				} else {
+					//Exchange currency to chosen currency
+					let rate = fx(money).from("USD").to(currency);
+					//Round money to 2 decimal points
+					money = rate.toFixed(2);
+				}
+				//Format money with commas
 				money = nf.format(money);
-				document.getElementById("amount").innerHTML = 'Money: $' + money + ' ' + currency;
-			  }
+				//Get currency worth (Show currency?)
+				chrome.storage.local.get(['currencyworth'], function(result) {
+					//If show currency is true
+					if (result.currencyworth === true){
+						//Change robux value to money worth with currency
+						document.getElementById("amount").innerHTML = 'Money: $' + money + ' ' + currency;
+					//else
+					} else {
+						//Change robux value to money worth
+						document.getElementById("amount").innerHTML = 'Money: $' + money;
+					}
+				});
+			}
 			  
-			  fetch('https://api.exchangeratesapi.io/latest')
+			  fetch('https://api.exchangeratesapi.io/latest?base=USD')
 				.then((resp) => resp.json())
 				.then((data) => fx.rates = data.rates)
 				.then(demo)

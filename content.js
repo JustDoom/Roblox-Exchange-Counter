@@ -18,7 +18,9 @@ window.onload = function () {
 	});	
 	
 	//Run function to convert to currency
-	convert();
+	if(document.getElementById("nav-robux-amount")){
+		convert();
+	}
 }
 
 //Convert Function
