@@ -17,7 +17,7 @@ window.onload = function () {
 		currency = result.currency;
 	});	
 	
-	//Run function to convert to currency
+	//Run function to convert to currency if robux display part exists (if person is on roblox.com instead of devforum.roblox.com)
 	if(document.getElementById("nav-robux-amount")){
 		convert();
 	}

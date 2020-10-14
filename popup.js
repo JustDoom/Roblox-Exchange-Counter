@@ -82,17 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		chrome.storage.local.set({'currency': document.getElementById('currency').value});
 	});
 
-	var textBox = document.getElementById('robuxAmount');
-
-	//When textbox is clicked
-	textBox.addEventListener('click', function () {
-		//If hhasnt been clicked
-		if (document.getElementById('robuxAmount').value === 'Amount Here') {
-			//Set to nothing
-			document.getElementById('robuxAmount').value = '';
-		}
-	}, false);
-
 	var checkPageButton = document.getElementById('clickIt');
 
 	//When convert is clicked
