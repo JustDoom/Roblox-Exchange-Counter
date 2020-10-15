@@ -1,11 +1,14 @@
 var robuxValue = 0.0035;
 var robux;
 var robuxItemCost;
+var groupFunds;
 
 var money;
 var money2;
+var money3;
 
 var currency;
+var currencySymbolVar;
 
 var nf = new Intl.NumberFormat();
  
@@ -23,11 +26,16 @@ window.onload = function () {
 	}
 }
 
+//class for buy roblox game is btn-text with spaces around the robux amount
+
 //Convert Function
 function convert(){
 	if(document.getElementById("nav-robux-amount").innerHTML === ""){
 		convert();
 	} else {
+		chrome.storage.local.get(['currencySymbol'], function(result) {
+			currencySymbolVar = result.currencySymbol;
+		});
 		chrome.storage.local.get(['robuxamountcheckbox'], function(result) {
 			//Check if setting is true
 			if (result.robuxamountcheckbox === true){
@@ -58,11 +66,11 @@ function convert(){
 						//If show currency is true
 						if (result.currencyworth === true){
 							//Change robux value to money worth with currency
-							document.getElementById("nav-robux-amount").innerHTML = '$' + money + ' ' + currency;
+							document.getElementById("nav-robux-amount").innerHTML = currencySymbolVar + money + ' ' + currency;
 						//else
 						} else {
 							//Change robux value to money worth
-							document.getElementById("nav-robux-amount").innerHTML = '$' + money;
+							document.getElementById("nav-robux-amount").innerHTML = currencySymbolVar + money;
 						}
 					});
 				}
@@ -104,11 +112,11 @@ function convert(){
 							//If show currency is true
 							if (result.currencyworth === true){
 								//Change robux value to money worth with currency
-								document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = '$' + money2 + ' ' + currency;
+								document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = currencySymbolVar + money2 + ' ' + currency;
 							//else
 							} else {
 								//Change robux value to money worth
-								document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = '$' + money2;
+								document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = currencySymbolVar + money2;
 							}
 						});
 					}
@@ -121,8 +129,100 @@ function convert(){
 				}
 			}
 		});
+
+		chrome.storage.local.get(['grouprobuxcheckbox'], function(result) {
+			//Check if setting is true
+			if (result.grouprobuxcheckbox === true){
+				if(document.body.contains(document.getElementsByClassName("text-robux ng-binding")[0])){
+					//Get item cost
+					groupFunds = document.getElementsByClassName("text-robux ng-binding")[0].innerHTML;
+					//Replace any commas
+					groupFunds = groupFunds.replace(/,/g, '');
+					//Calculate how much USD you have in robux
+					money3 = robuxValue * groupFunds;
+	 
+					let demo1 = () => {
+						//Check if currency is USD
+					if(currency === 'USD'){
+						//Parse float
+						money3 = parseFloat(money3);
+						//Round money to 2 decimal points
+						money3 = money3.toFixed(2);
+					} else {
+						//Exchange currency to chosen currency
+						let rate = fx(money3).from("USD").to(currency);
+						//Round money to 2 decimal points
+						money3 = rate.toFixed(2);
+					}
+						money3 = nf.format(money3);
+						chrome.storage.local.get(['currencyworth'], function(result) {
+							//If show currency is true
+							if (result.currencyworth === true){
+								//Change robux value to money worth with currency
+								document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = currencySymbolVar + money3 + ' ' + currency;
+							//else
+							} else {
+								//Change robux value to money worth
+								document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = currencySymbolVar + money3;
+							}
+						});
+					}
+
+					
+	 
+					//Get exchange values
+					fetch('https://api.exchangeratesapi.io/latest?base=USD')
+						.then((resp) => resp.json())
+						.then((data) => fx.rates = data.rates)
+						.then(demo1);
+				}
+
+				if(document.body.contains(document.getElementsByClassName("text-robux-lg ng-binding")[0])){
+					//Get item cost
+					groupFunds = document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML;
+					//Replace any commas
+					groupFunds = groupFunds.replace(/,/g, '');
+					//Calculate how much USD you have in robux
+					money3 = robuxValue * groupFunds;
+	 
+					let demo1 = () => {
+						//Check if currency is USD
+					if(currency === 'USD'){
+						//Parse float
+						money3 = parseFloat(money3);
+						//Round money to 2 decimal points
+						money3 = money3.toFixed(2);
+					} else {
+						//Exchange currency to chosen currency
+						let rate = fx(money3).from("USD").to(currency);
+						//Round money to 2 decimal points
+						money3 = rate.toFixed(2);
+					}
+						money3 = nf.format(money3);
+						chrome.storage.local.get(['currencyworth'], function(result) {
+							//If show currency is true
+							if (result.currencyworth === true){
+								//Change robux value to money worth with currency
+								document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = currencySymbolVar + money3 + ' ' + currency;
+							//else
+							} else {
+								//Change robux value to money worth
+								document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = currencySymbolVar + money3;
+							}
+						});
+					}
+
+					
+	 
+					//Get exchange values
+					fetch('https://api.exchangeratesapi.io/latest?base=USD')
+						.then((resp) => resp.json())
+						.then((data) => fx.rates = data.rates)
+						.then(demo1);
+				}
+			}
+		});
 	}
-	
 }
 
 //Calculating currency stuff I copied from a website

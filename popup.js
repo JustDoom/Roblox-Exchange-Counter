@@ -1,4 +1,20 @@
 var currency;
+var currencySymbol = {
+	'AUD': '\u0024',
+	'CAD': '\u0024',
+	'EUR': '\u20AC',
+	'GBP': '\u00A3',
+	'HKD': '\u0024',
+	'INR': '\u20B9',
+	'JPY': '\u00A5',
+	'NZD': '\u0024',
+	'PHP': '\u20B1',
+	'RUB': '\u20BD',
+	'THB': '\u0E3F',
+	'TRY': '\u20BA',
+	'USD': '\u0024',
+};
+
 var robuxValue = 0.0035;
 var robux;
 var money;
@@ -10,11 +26,21 @@ var nf = new Intl.NumberFormat();
 
 //When everything is loaded
 document.addEventListener('DOMContentLoaded', function () {
+	
+	chrome.storage.local.get(['grouprobuxcheckbox'], function(result) {
+		if(typeof result.grouprobuxcheckbox === "undefined"){
+			document.getElementById('group-robux-box').checked = true;
+			chrome.storage.local.set({'grouprobuxcheckbox': true});
+		} else {
+			document.getElementById('group-robux-box').checked = result.grouprobuxcheckbox;
+		}
+	});
 
 	//Get and set currency
-	chrome.storage.local.get(['currency'], function(result) { 
+	chrome.storage.local.get(['currency'], function(result) {
 		if(typeof result.currency === "undefined"){
 			document.getElementById('currency').value = 'USD';
+			chrome.storage.local.set({'currencySymbol': currencySymbol});
 		} else {
 			document.getElementById('currency').value = result.currency;
 		}
@@ -68,6 +94,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
+	//Check/uncheck checkbox and save localstorage for show worth on group robux
+	document.getElementById('group-robux-box').onclick = function(){
+		if (document.getElementById('group-robux-box').checked == true){
+			chrome.storage.local.set({'grouprobuxcheckbox': true});
+		} else {
+			chrome.storage.local.set({'grouprobuxcheckbox': false});
+		}
+	}
+
 	//Check/uncheck checkbox and save localstorage for show worth on gamepasses/clothing
 	document.getElementById('robux-item-box').onclick = function(){
 		if (document.getElementById('robux-item-box').checked == true){
@@ -80,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	//Get when currency is changed and save it
 	document.getElementById('currency').addEventListener('change', function() {
 		chrome.storage.local.set({'currency': document.getElementById('currency').value});
+		chrome.storage.local.set({'currencySymbol': currencySymbol[document.getElementById('currency').value]});
 	});
 
 	var checkPageButton = document.getElementById('clickIt');
@@ -122,11 +158,11 @@ document.addEventListener('DOMContentLoaded', function () {
 					//If show currency is true
 					if (result.currencyworth === true){
 						//Change robux value to money worth with currency
-						document.getElementById("amount").innerHTML = 'Money: $' + money + ' ' + currency;
+						document.getElementById("amount").innerHTML = 'Money: ' + currencySymbol[document.getElementById('currency').value] + money + ' ' + currency;
 					//else
 					} else {
 						//Change robux value to money worth
-						document.getElementById("amount").innerHTML = 'Money: $' + money;
+						document.getElementById("amount").innerHTML = 'Money: ' + currencySymbol[document.getElementById('currency').value] + money;
 					}
 				});
 			}
