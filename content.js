@@ -1,7 +1,27 @@
+var currencySymbol = {
+	'AUD': '\u0024',
+	'CAD': '\u0024',
+	'EUR': '\u20AC',
+	'GBP': '\u00A3',
+	'HKD': '\u0024',
+	'INR': '\u20B9',
+	'JPY': '\u00A5',
+	'NZD': '\u0024',
+	'PHP': '\u20B1',
+	'RUB': '\u20BD',
+	'THB': '\u0E3F',
+	'TRY': '\u20BA',
+	'USD': '\u0024',
+};
+
 var robuxValue = 0.0035;
 var robux;
 var robuxItemCost;
 var groupFunds;
+
+var robuxAmount;
+var robuxGamepassAmount;
+var groupFundsAmount;
 
 var money;
 var money2;
@@ -11,6 +31,47 @@ var currency;
 var currencySymbolVar;
 
 var nf = new Intl.NumberFormat();
+
+chrome.storage.local.get(['grouprobuxcheckbox'], function(result) {
+	if(typeof result.grouprobuxcheckbox === "undefined"){
+		chrome.storage.local.set({'grouprobuxcheckbox': true});
+	}
+});
+
+chrome.storage.local.get(['robuxformat'], function(result) {
+	if(typeof result.robuxformat === "undefined"){
+		chrome.storage.local.set({'robuxformat': 'option1'});
+	}
+});
+
+//Get and set currency
+chrome.storage.local.get(['currency'], function(result) {
+	if(typeof result.currency === "undefined"){
+		chrome.storage.local.set({'currency': 'USD'});
+		chrome.storage.local.set({'currencySymbol': currencySymbol['USD']});
+	}
+});
+
+//Get and set show robux amount checkbox
+chrome.storage.local.get(['robuxamountcheckbox'], function(result) {
+	if(typeof result.robuxamountcheckbox === "undefined"){
+		chrome.storage.local.set({'robuxamountcheckbox': true});
+	}
+});
+
+//Get and set show currency checkbox
+chrome.storage.local.get(['currencyworth'], function(result) {
+	if(typeof result.currencyworth === "undefined"){
+		chrome.storage.local.set({'currencyworth': true});
+	}
+});
+
+//Get and set show robux worth on gamepasses/clothing checkbox
+chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
+	if(typeof result.robuxitemcheckbox === "undefined"){
+		chrome.storage.local.set({'robuxitemcheckbox': true});
+	}
+});
  
 //Roblox page load
 window.onload = function () {
@@ -41,6 +102,7 @@ function convert(){
 			if (result.robuxamountcheckbox === true){
 				//Get robux amount
 				robux = document.getElementById("nav-robux-amount").innerHTML;
+				robuxAmount = robux;
 				//Replace any commas
 				robux = robux.replace(/,/g, '');
 				//Calculate how much USD you have in robux
@@ -63,15 +125,30 @@ function convert(){
 					money = nf.format(money);
 					//Get currency worth (Show currency?)
 					chrome.storage.local.get(['currencyworth'], function(result) {
-						//If show currency is true
-						if (result.currencyworth === true){
-							//Change robux value to money worth with currency
-							document.getElementById("nav-robux-amount").innerHTML = currencySymbolVar + money + ' ' + currency;
-						//else
-						} else {
-							//Change robux value to money worth
-							document.getElementById("nav-robux-amount").innerHTML = currencySymbolVar + money;
-						}
+
+						chrome.storage.local.get(['robuxformat'], function(result2) {
+							if(result2.robuxformat === 'option1'){
+								//If show currency is true
+								if (result.currencyworth === true){
+									//Change robux value to money worth with currency
+									document.getElementById("nav-robux-amount").innerHTML = robuxAmount + ' (' + currencySymbolVar + money + ' ' + currency + ')';
+								//else
+								} else {
+									//Change robux value to money worth
+									document.getElementById("nav-robux-amount").innerHTML = robuxAmount + ' (' + currencySymbolVar + money + ')';
+								}
+							} else {
+								//If show currency is true
+								if (result.currencyworth === true){
+									//Change robux value to money worth with currency
+									document.getElementById("nav-robux-amount").innerHTML = currencySymbolVar + money + ' ' + currency;
+								//else
+								} else {
+									//Change robux value to money worth
+									document.getElementById("nav-robux-amount").innerHTML = currencySymbolVar + money;
+								}
+							}
+						});
 					});
 				}
 	 
@@ -89,6 +166,7 @@ function convert(){
 				if(document.body.contains(document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0])){
 					//Get item cost
 					robuxItemCost = document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML;
+					robuxGamepassAmount = robuxItemCost;
 					//Replace any commas
 					robuxItemCost = robuxItemCost.replace(/,/g, '');
 					//Calculate how much USD you have in robux
@@ -109,15 +187,31 @@ function convert(){
 					}
 						money2 = nf.format(money2);
 						chrome.storage.local.get(['currencyworth'], function(result) {
-							//If show currency is true
-							if (result.currencyworth === true){
-								//Change robux value to money worth with currency
-								document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = currencySymbolVar + money2 + ' ' + currency;
-							//else
-							} else {
-								//Change robux value to money worth
-								document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = currencySymbolVar + money2;
-							}
+
+							chrome.storage.local.get(['robuxformat'], function(result2) {
+								if(result2.robuxformat === 'option1'){
+									//If show currency is true
+	
+									if (result.currencyworth === true){
+										//Change robux value to money worth with currency
+										document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = robuxGamepassAmount + ' (' + currencySymbolVar + money2 + ' ' + currency + ')';
+									//else
+									} else {
+										//Change robux value to money worth
+										document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = robuxGamepassAmount + ' (' + currencySymbolVar + money2 + ')';
+									}
+								} else {
+									//If show currency is true
+									if (result.currencyworth === true){
+										//Change robux value to money worth with currency
+										document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = currencySymbolVar + money2 + ' ' + currency;
+									//else
+									} else {
+										//Change robux value to money worth
+										document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0].innerHTML = currencySymbolVar + money2;
+									}
+								}
+							});
 						});
 					}
 	 
@@ -136,6 +230,7 @@ function convert(){
 				if(document.body.contains(document.getElementsByClassName("text-robux ng-binding")[0])){
 					//Get item cost
 					groupFunds = document.getElementsByClassName("text-robux ng-binding")[0].innerHTML;
+					groupFundsAmount = groupFunds;
 					//Replace any commas
 					groupFunds = groupFunds.replace(/,/g, '');
 					//Calculate how much USD you have in robux
@@ -156,15 +251,31 @@ function convert(){
 					}
 						money3 = nf.format(money3);
 						chrome.storage.local.get(['currencyworth'], function(result) {
-							//If show currency is true
-							if (result.currencyworth === true){
-								//Change robux value to money worth with currency
-								document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = currencySymbolVar + money3 + ' ' + currency;
-							//else
-							} else {
-								//Change robux value to money worth
-								document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = currencySymbolVar + money3;
-							}
+
+							chrome.storage.local.get(['robuxformat'], function(result2) {
+								if(result2.robuxformat === 'option1'){
+									//If show currency is true
+	
+									if (result.currencyworth === true){
+										//Change robux value to money worth with currency
+										document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = groupFundsAmount + ' (' + currencySymbolVar + money3 + ' ' + currency + ')';
+									//else
+									} else {
+										//Change robux value to money worth
+										document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = groupFundsAmount + ' (' + currencySymbolVar + money3 + ')';
+									}
+								} else {
+									//If show currency is true
+									if (result.currencyworth === true){
+										//Change robux value to money worth with currency
+										document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = currencySymbolVar + money3 + ' ' + currency;
+									//else
+									} else {
+										//Change robux value to money worth
+										document.getElementsByClassName("text-robux ng-binding")[0].innerHTML = currencySymbolVar + money3;
+									}
+								}
+							});
 						});
 					}
 
@@ -180,6 +291,7 @@ function convert(){
 				if(document.body.contains(document.getElementsByClassName("text-robux-lg ng-binding")[0])){
 					//Get item cost
 					groupFunds = document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML;
+					groupFundsAmount = groupFunds;
 					//Replace any commas
 					groupFunds = groupFunds.replace(/,/g, '');
 					//Calculate how much USD you have in robux
@@ -200,15 +312,31 @@ function convert(){
 					}
 						money3 = nf.format(money3);
 						chrome.storage.local.get(['currencyworth'], function(result) {
-							//If show currency is true
-							if (result.currencyworth === true){
-								//Change robux value to money worth with currency
-								document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = currencySymbolVar + money3 + ' ' + currency;
-							//else
-							} else {
-								//Change robux value to money worth
-								document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = currencySymbolVar + money3;
-							}
+
+							chrome.storage.local.get(['robuxformat'], function(result2) {
+								if(result2.robuxformat === 'option1'){
+									//If show currency is true
+	
+									if (result.currencyworth === true){
+										//Change robux value to money worth with currency
+										document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = groupFundsAmount + ' (' + currencySymbolVar + money3 + ' ' + currency + ')';
+									//else
+									} else {
+										//Change robux value to money worth
+										document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = groupFundsAmount + ' (' + currencySymbolVar + money3 + ')';
+									}
+								} else {
+									//If show currency is true
+									if (result.currencyworth === true){
+										//Change robux value to money worth with currency
+										document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = currencySymbolVar + money3 + ' ' + currency;
+									//else
+									} else {
+										//Change robux value to money worth
+										document.getElementsByClassName("text-robux-lg ng-binding")[0].innerHTML = currencySymbolVar + money3;
+									}
+								}
+							});
 						});
 					}
 

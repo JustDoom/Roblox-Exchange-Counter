@@ -28,57 +28,39 @@ var nf = new Intl.NumberFormat();
 document.addEventListener('DOMContentLoaded', function () {
 	
 	chrome.storage.local.get(['grouprobuxcheckbox'], function(result) {
-		if(typeof result.grouprobuxcheckbox === "undefined"){
-			document.getElementById('group-robux-box').checked = true;
-			chrome.storage.local.set({'grouprobuxcheckbox': true});
-		} else {
-			document.getElementById('group-robux-box').checked = result.grouprobuxcheckbox;
-		}
+		document.getElementById('group-robux-box').checked = result.grouprobuxcheckbox;
+	});
+
+	chrome.storage.local.get(['robuxformat'], function(result) {
+		document.getElementById('robuxformat').value = result.robuxformat;
 	});
 
 	//Get and set currency
 	chrome.storage.local.get(['currency'], function(result) {
-		if(typeof result.currency === "undefined"){
-			document.getElementById('currency').value = 'USD';
-			chrome.storage.local.set({'currencySymbol': currencySymbol});
-		} else {
-			document.getElementById('currency').value = result.currency;
-		}
+		document.getElementById('currency').value = result.currency;
 	});
 
 	//Get and set show robux amount checkbox
 	chrome.storage.local.get(['robuxamountcheckbox'], function(result) {
-		if(typeof result.robuxamountcheckbox === "undefined"){
-			document.getElementById('robux-amount-box').checked = true;
-		} else {
-			robux_amount_checkbox = result.robuxamountcheckbox;
-			document.getElementById('robux-amount-box').checked = robux_amount_checkbox;
-		}
+		robux_amount_checkbox = result.robuxamountcheckbox;
+		document.getElementById('robux-amount-box').checked = robux_amount_checkbox;
 	});
 
 	//Get and set show currency checkbox
 	chrome.storage.local.get(['currencyworth'], function(result) {
-		if(typeof result.currencyworth === "undefined"){
-			document.getElementById('currency-worth-box').checked = true;
-		} else {
-			currency_worth = result.currencyworth;
-			document.getElementById('currency-worth-box').checked = currency_worth;
-		}
+		currency_worth = result.currencyworth;
+		document.getElementById('currency-worth-box').checked = currency_worth;
 	});
 
 	//Get and set show robux worth on gamepasses/clothing checkbox
 	chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
-		if(typeof result.robuxitemcheckbox === "undefined"){
-			document.getElementById('robux-item-box').checked = true;
-		} else {
-			robux_amount_checkbox = result.robuxitemcheckbox;
-			document.getElementById('robux-item-box').checked = robux_amount_checkbox;
-		}
+		robux_amount_checkbox = result.robuxitemcheckbox;
+		document.getElementById('robux-item-box').checked = robux_amount_checkbox;
 	});
 
 	//Check/uncheck checkbox and save localstorage for show robux worth
 	document.getElementById('robux-amount-box').onclick = function(){
-		if (document.getElementById('robux-amount-box').checked == true){
+		if (document.getElementById('robux-amount-box').checked === true){
 			chrome.storage.local.set({'robuxamountcheckbox': true});
 		} else {
 			chrome.storage.local.set({'robuxamountcheckbox': false});
@@ -87,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Check/uncheck checkbox and save localstorage for show worth currency
 	document.getElementById('currency-worth-box').onclick = function(){
-		if (document.getElementById('currency-worth-box').checked == true){
+		if (document.getElementById('currency-worth-box').checked === true){
 			chrome.storage.local.set({'currencyworth': true});
 		} else {
 			chrome.storage.local.set({'currencyworth': false});
@@ -96,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Check/uncheck checkbox and save localstorage for show worth on group robux
 	document.getElementById('group-robux-box').onclick = function(){
-		if (document.getElementById('group-robux-box').checked == true){
+		if (document.getElementById('group-robux-box').checked === true){
 			chrome.storage.local.set({'grouprobuxcheckbox': true});
 		} else {
 			chrome.storage.local.set({'grouprobuxcheckbox': false});
@@ -105,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Check/uncheck checkbox and save localstorage for show worth on gamepasses/clothing
 	document.getElementById('robux-item-box').onclick = function(){
-		if (document.getElementById('robux-item-box').checked == true){
+		if (document.getElementById('robux-item-box').checked === true){
 			chrome.storage.local.set({'robuxitemcheckbox': true});
 		} else {
 			chrome.storage.local.set({'robuxitemcheckbox': false});
@@ -116,6 +98,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	document.getElementById('currency').addEventListener('change', function() {
 		chrome.storage.local.set({'currency': document.getElementById('currency').value});
 		chrome.storage.local.set({'currencySymbol': currencySymbol[document.getElementById('currency').value]});
+	});
+
+	//Get when robux format is changed and save it
+	document.getElementById('robuxformat').addEventListener('change', function() {
+		chrome.storage.local.set({'robuxformat': document.getElementById('robuxformat').value});
 	});
 
 	var checkPageButton = document.getElementById('clickIt');
