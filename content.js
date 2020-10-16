@@ -74,7 +74,7 @@ chrome.storage.local.get(['robuxitemcheckbox'], function(result) {
 });
  
 //Roblox page load
-window.onload = function () {
+//window.onload = function () {
 
 	//Get and set currency
 	chrome.storage.local.get(['currency'], function(result) {
@@ -85,14 +85,14 @@ window.onload = function () {
 	if(document.getElementById("nav-robux-amount")){
 		convert();
 	}
-}
+//}
 
 //class for buy roblox game is btn-text with spaces around the robux amount
 
 //Convert Function
 function convert(){
 	if(document.getElementById("nav-robux-amount").innerHTML === ""){
-		convert();
+		setTimeout(convert, 1);
 	} else {
 		chrome.storage.local.get(['currencySymbol'], function(result) {
 			currencySymbolVar = result.currencySymbol;
