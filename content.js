@@ -15,7 +15,7 @@ var currencySymbol = {
 };
 
 var robuxValue = 0.0035;
-var robux;
+var robux1;
 var robuxItemCost;
 var groupFunds;
 
@@ -31,6 +31,14 @@ var currency;
 var currencySymbolVar;
 
 var nf = new Intl.NumberFormat();
+
+document.addEventListener('DOMContentLoaded', function () {
+	fetch('https://api.roblox.com/currency/balance')
+		.then(res => res.json())
+		.then((out) => {
+			prompt(out.robux);
+	}).catch(err => console.error(err));
+});
 
 chrome.storage.local.get(['grouprobuxcheckbox'], function(result) {
 	if(typeof result.grouprobuxcheckbox === "undefined"){
@@ -101,12 +109,19 @@ function convert(){
 			//Check if setting is true
 			if (result.robuxamountcheckbox === true){
 				//Get robux amount
-				robux = document.getElementById("nav-robux-amount").innerHTML;
-				robuxAmount = robux;
+				robux1 = document.getElementById("nav-robux-amount").innerHTML;
+
+				robux1 = "641M"
+
+				if (robux1.includes("K") || robux1.includes("M")){
+					
+				}
+
+				robuxAmount = robux1;
 				//Replace any commas
-				robux = robux.replace(/,/g, '');
+				robux1 = robux1.replace(/,/g, '');
 				//Calculate how much USD you have in robux
-				money = robuxValue * robux;
+				money = robuxValue * robux1;
 	 
 				let demo = () => {
 					//Check if currency is USD
@@ -127,6 +142,7 @@ function convert(){
 					chrome.storage.local.get(['currencyworth'], function(result) {
 
 						chrome.storage.local.get(['robuxformat'], function(result2) {
+
 							if(result2.robuxformat === 'option1'){
 								//If show currency is true
 								if (result.currencyworth === true){
@@ -157,6 +173,12 @@ function convert(){
 					.then((resp) => resp.json())
 					.then((data) => fx.rates = data.rates)
 					.then(demo)
+
+				fetch('https://api.roblox.com/currency/balance')
+					.then(res => res.json())
+					.then((out) => {
+						prompt(out.robux);
+				}).catch(err => console.error(err));
 			}
 		});
 	
