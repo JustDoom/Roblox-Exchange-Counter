@@ -9,7 +9,8 @@
 	},
 	"permissions": [
         "activeTab",
-        "storage"
+        "storage",
+        "cookies"
 	],
     "content_scripts": [
         {
@@ -17,8 +18,12 @@
                 "*://*.roblox.com/*"
             ],
             "js": [
-                "content.js"
+                "jquery-3.5.1.min.js", "content.js"
             ]
         }
-    ]
+    ],
+    "background":
+    {
+        "scripts": []
+    }
 }

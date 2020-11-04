@@ -32,13 +32,29 @@ var currencySymbolVar;
 
 var nf = new Intl.NumberFormat();
 
-document.addEventListener('DOMContentLoaded', function () {
-	fetch('https://api.roblox.com/currency/balance')
+fetch('https://api.roblox.com/currency/balance')
 		.then(res => res.json())
-		.then((out) => {
-			prompt(out.robux);
+		.then((json) => {
+			prompt(json.robux);
 	}).catch(err => console.error(err));
+
+document.addEventListener('DOMContentLoaded', function () {
+	/****/
+
+	
+
+	/**const request = async () => {
+		const response = await fetch('https://api.roblox.com/currency/balance', {mode: 'cors'});
+		const json = await response.json();
+		prompt(json);
+	}
+
+	request();**/
 });
+
+$.getJSON('https://api.roblox.com/currency/balance', function(data) {
+        prompt(`${data.robux}`);
+    });
 
 chrome.storage.local.get(['grouprobuxcheckbox'], function(result) {
 	if(typeof result.grouprobuxcheckbox === "undefined"){
@@ -111,7 +127,7 @@ function convert(){
 				//Get robux amount
 				robux1 = document.getElementById("nav-robux-amount").innerHTML;
 
-				robux1 = "641M"
+				//robux1 = "641M"
 
 				if (robux1.includes("K") || robux1.includes("M")){
 					
@@ -173,12 +189,6 @@ function convert(){
 					.then((resp) => resp.json())
 					.then((data) => fx.rates = data.rates)
 					.then(demo)
-
-				fetch('https://api.roblox.com/currency/balance')
-					.then(res => res.json())
-					.then((out) => {
-						prompt(out.robux);
-				}).catch(err => console.error(err));
 			}
 		});
 	
