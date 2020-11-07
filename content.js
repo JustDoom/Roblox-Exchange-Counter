@@ -32,14 +32,13 @@ var currencySymbolVar;
 
 var nf = new Intl.NumberFormat();
 
-fetch('https://api.roblox.com/currency/balance')
+/**fetch('https://api.roblox.com/currency/balance')
 		.then(res => res.json())
 		.then((json) => {
 			prompt(json.robux);
 	}).catch(err => console.error(err));
 
 document.addEventListener('DOMContentLoaded', function () {
-	/****/
 
 	
 
@@ -49,12 +48,12 @@ document.addEventListener('DOMContentLoaded', function () {
 		prompt(json);
 	}
 
-	request();**/
-});
+	request();
+});**/
 
-$.getJSON('https://api.roblox.com/currency/balance', function(data) {
+/**$.getJSON('https://api.roblox.com/currency/balance', function(data) {
         prompt(`${data.robux}`);
-    });
+    });**/
 
 chrome.storage.local.get(['grouprobuxcheckbox'], function(result) {
 	if(typeof result.grouprobuxcheckbox === "undefined"){
@@ -127,15 +126,17 @@ function convert(){
 				//Get robux amount
 				robux1 = document.getElementById("nav-robux-amount").innerHTML;
 
-				//robux1 = "641M"
-
-				if (robux1.includes("K") || robux1.includes("M")){
-					
-				}
-
 				robuxAmount = robux1;
 				//Replace any commas
-				robux1 = robux1.replace(/,/g, '');
+				if (robux1.includes("K")){
+					robux1 = robux1.replace(/K/g, '');
+					robux1 = robux1 * 1000;
+				} else if (robux1.includes("M")){
+					robux1 = robux1.replace(/M/g, '');
+					robux1 = robux1 * 1000000;
+				} else {
+					robux1 = robux1.replace(/,/g, '');
+				}
 				//Calculate how much USD you have in robux
 				money = robuxValue * robux1;
 	 
