@@ -15,10 +15,13 @@ var currencySymbol = {
 	'USD': '\u0024',
 };
 
-var robuxValue = 0.0035;
+var robuxValue = {
+	store: 0.125,
+	devex: 0.0035
+}
 var robux;
 var money;
-
+var mainValue;
 var robux_amount_checkbox = true;
 var currency_worth = true;
 
@@ -105,6 +108,20 @@ document.addEventListener('DOMContentLoaded', function () {
 		chrome.storage.local.set({'robuxformat': document.getElementById('robuxformat').value});
 	});
 
+
+	document.getElementById("rt-container").addEventListener('change', function () {
+
+		chrome.storage.local.set({'ratetype': document.getElementById('rt-container').value})
+
+		if (chrome.storage.local.get(['ratetype'], function (res) {
+			res.ratetype == 'option1'
+		})) {
+			return mainValue = robuxValue['store'];
+		} else {
+			return mainValue = robuxValue['devex']
+		}
+	});
+
 	var checkPageButton = document.getElementById('clickIt');
 
 	//When convert is clicked
@@ -123,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			robux = robux.replace(/,/g, '');
 
 			//Calculate robux
-			money = robuxValue * robux;
+			money = mainValue * robux;
 
 			let demo = () => {
 				//Check if currency is USD
@@ -268,3 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 }(this));
+
+var lol = require('../lol.json')
+
+lol.val = mainValue;
