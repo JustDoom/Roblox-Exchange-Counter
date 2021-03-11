@@ -14,7 +14,7 @@ var currencySymbol = {
 	'USD': '\u0024',
 };
 
-var robuxValue = 0.0035;
+var robuxValue = require('./lol.json')
 var robux1;
 var robuxItemCost;
 var groupFunds;
@@ -267,7 +267,7 @@ function convert(){
 					//Replace any commas
 					groupFunds = groupFunds.replace(/,/g, '');
 					//Calculate how much USD you have in robux
-					money3 = robuxValue * groupFunds;
+					money3 = robuxValue["devex"] * groupFunds;
 	 
 					let demo1 = () => {
 						//Check if currency is USD
