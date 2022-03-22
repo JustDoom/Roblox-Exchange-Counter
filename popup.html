@@ -1,93 +1,42 @@
 <!doctype html>
-<html>
-	<head>
-		<title>Test Click</title>
-	</head>
-	<style type="text/css">
-		body {
-			height: 300px;
-			width: 190px;
-			margin: 5px;
-		}
-		h1 {
-			font-size: 15px;
-			text-align: center;
-		}
-		.container {
-			font-weight: bold;
-			display: block;
-			position: relative;
-			padding-left: 10px;
-			margin-bottom: 16px;
-			cursor: pointer;
-			font-size: 13px;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}	
-	</style>
+<html lang="">
+<head>
+	<meta http-equiv="Content-Security-Policy"
+		  content="default-src 'self'; img-src https://*; child-src 'none';">
+
+</head>
 	<body>
-		<p>
-			<h1>Robux To Money Converter</h1>
-			<input type = "text"
-				id = "robuxAmount"
-				placeholder="Amount Here" />
-		</p>
-		<p><label id="amount">Money:</label></p>
-		<button id="clickIt">Convert</button>
-		<select name="Currency" id="currency">
-			<option value="AUD">AUD</option>
-			<option value="CAD">CAD</option>
-			<option value="EUR">EUR</option>
-			<option value="GBP">GBP</option>
-			<option value="HKD">HKD</option>
-			<option value="INR">INR</option>
-			<option value="JPY">JPY</option>
-			<option value="NZD">NZD</option>
-			<option value="PHP">PHP</option>
-			<option value="RUB">RUB</option>
-			<option value="THB">THB</option>
-			<option value="TRY">TRY</option>
-			<option value="USD">USD</option>
-		  </select>
+		<h4>Robux Worth Calculator</h4>
+		<div>
+			<div>
+				<input type="text" id="convert-input" placeholder="Amount Here" />
+				<button id="convert-button">Convert</button>
+				<p id="convert-output"></p>
+			</div>
+			<div>
+				<p>Convert Options</p>
+				<select id="currency">
+					<option value="AUD">AUD</option>
+					<option value="CAD">CAD</option>
+					<option value="EUR">EUR</option>
+					<option value="GBP">GBP</option>
+					<option value="HKD">HKD</option>
+					<option value="INR">INR</option>
+					<option value="JPY">JPY</option>
+					<option value="NZD">NZD</option>
+					<option value="PHP">PHP</option>
+					<option value="RUB">RUB</option>
+					<option value="THB">THB</option>
+					<option value="TRY">TRY</option>
+					<option value="USD">USD</option>
+				</select>
+			</div>
+		</div>
+		<div>
+			<h4>Settings</h4>
 
-		  <p>
-			<h1>Settings</h1>
-		</p>
+		</div>
 
-		<p>
-			<label class="container">Replace Robux Amount:
-			<input type="checkbox" checked="checked" id='robux-amount-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Replace Gamepasses/clothing:
-			<input type="checkbox" checked="checked" id='robux-item-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Replace group robux:
-			<input type="checkbox" checked="checked" id='group-robux-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Show currency:
-			<input type="checkbox" checked="checked" id='currency-worth-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Robux Worth Display Layout:
-				<select name="Robux Format" id="robuxformat">
-					<option value="option1">"Robux" ("worth")</option>
-					<option value="option2">"worth"</option>
-				  </select>
-		  </label>
-		</p>
+		<script src="js/popup.js"></script>
 	</body>
-	<script src="popup.js"></script>
 </html>
