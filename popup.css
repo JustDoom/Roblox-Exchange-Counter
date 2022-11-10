@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    height: 300px;
+    width: 190px;
+    /* margin: 5px; */
+    margin: auto;
+    margin-left: 5px;
+    background-color: #FF9A8B;
+    background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+    
+}
+h1 {
+    font-size: 15px;
+    text-align: center;
+}
+.container {
+    font-weight: bold;
+    display: block;
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    font-size: 13px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button {
+    color: white;
+    background-color: red;
+    cursor: pointer;
+    display: block;
+    font-size:16px;
+    font-weight: 400;
+    line-height: 20px;
+    max-width: 100px; 
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#clickIt {
+    border: 0 solid;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+    outline: 1px solid;
+    outline-color: rgba(255, 255, 255, .5);
+    outline-offset: 0px;
+    text-shadow: none;
+    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  } 
+  
+#clickIt:hover {
+    border: 1px solid;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+    outline-color: rgba(255, 255, 255, 0);
+    outline-offset: 15px;
+    text-shadow: 1px 1px 2px #427388; 
+  }
