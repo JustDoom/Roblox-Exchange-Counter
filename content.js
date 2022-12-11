@@ -18,17 +18,13 @@ const currencySymbol = {
     'USD': '\u0024',
 };
 
-//document.addEventListener('DOMContentLoaded', function () {
-//if (document.getElementById("nav-robux-amount")) {
 convert();
-//}
-//});
 
-function convert() {
+async function convert() {
     if (document.getElementById("nav-robux-amount").innerHTML === "") {
-        setTimeout(convert, 100);
+        setTimeout(convert, 50);
     } else {
-        fetch('https://api.roblox.com/currency/balance')
+        const balance = await fetch('https://economy.roblox.com/v1/user/currency')
             .then((response) => {
                 return response.json();
             })
@@ -66,7 +62,7 @@ function convert() {
 
                     if (document.getElementsByClassName("text-robux ng-binding")[0]) {
                         const groupElement = document.getElementsByClassName("text-robux ng-binding")[0];
-                        //groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + calculateWorth(groupElement.innerHTML) + ")";
+                        groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + calculateWorth(groupElement.innerHTML) + ")";
                     }
 
                     if (document.getElementsByClassName("text-robux-lg ng-binding")[0]) {
@@ -74,16 +70,20 @@ function convert() {
                         groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + calculateWorth(groupElement.innerHTML) + ")";
                     }
 
-                    document.getElementById("nav-robux-amount").innerHTML = style.toString()
-                        .replaceAll('%robux%', amount)
-                        .replaceAll('%symbol%', currencySymbol[currency])
-                        .replaceAll('%worth%', calculateWorth(amount));
+                    document.getElementById("nav-robux-amount").innerHTML = convertWorth(style, amount);
                 });
 
             }).catch((error) => {
-            document.getElementById("nav-robux-amount").innerHTML = error;
-        });
+                document.getElementById("nav-robux-amount").innerHTML = error;
+            });
     }
+}
+
+function convertWorth(style, amount) {
+    return style.toString()
+        .replaceAll('%robux%', amount)
+        .replaceAll('%symbol%', currencySymbol[currency])
+        .replaceAll('%worth%', calculateWorth(amount));
 }
 
 function calculateWorth(robux) {

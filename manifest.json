@@ -10,7 +10,7 @@
   "permissions": [
     "activeTab",
     "storage",
-    "https://api.roblox.com/currency/balance"
+    "https://economy.roblox.com/v1/user/currency"
   ],
   "content_scripts": [
     {
