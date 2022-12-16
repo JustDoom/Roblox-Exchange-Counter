@@ -30,14 +30,14 @@ async function convert() {
             })
             .then((data) => {
                 const amount = data['robux'];
-                chrome.storage.local.get(['style'], function (result) {
+                chrome.storage.local.get(['style'], async function (result) {
                     let i;
                     const style = result.style === undefined ? "%robux% (%symbol%%worth%)" : result.style;
 
                     // Calculate worth of gamepass
                     if (document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0]) {
                         const gamepass = document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0];
-                        gamepass.innerHTML = gamepass.innerHTML + " (" + currencySymbol[currency] + calculateWorth(gamepass.innerHTML) + ")";
+                        gamepass.innerHTML = gamepass.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(gamepass.innerHTML) + ")";
                     } else {
                         //const gamepass = document.getElementsByClassName("text-robux-lg")[0];
                         //gamepass.innerHTML = gamepass.innerHTML + " (" + currencySymbol[currency] + calculateWorth(gamepass.innerHTML) + ")";
@@ -48,7 +48,7 @@ async function convert() {
                         const length = gamepasses.length;
                         for (i = 0; i < length; i++) {
                             const element = gamepasses[i];
-                            element.innerHTML = element.innerHTML + " (" + currencySymbol[currency] + calculateWorth(element.innerHTML) + ")";
+                            element.innerHTML = element.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(element.innerHTML) + ")";
                         }
                     }
 
@@ -56,21 +56,21 @@ async function convert() {
                         const length = document.getElementsByClassName("text-robux-tile ng-binding ng-scope").length;
                         for (i = 0; i < length; i++) {
                             const element = document.getElementsByClassName("text-robux-tile ng-binding ng-scope")[i];
-                            element.innerHTML = element.innerHTML + " (" + currencySymbol[currency] + calculateWorth(element.innerHTML) + ")";
+                            element.innerHTML = element.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(element.innerHTML) + ")";
                         }
                     }
 
                     if (document.getElementsByClassName("text-robux ng-binding")[0]) {
                         const groupElement = document.getElementsByClassName("text-robux ng-binding")[0];
-                        groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + calculateWorth(groupElement.innerHTML) + ")";
+                        groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(groupElement.innerHTML) + ")";
                     }
 
                     if (document.getElementsByClassName("text-robux-lg ng-binding")[0]) {
                         const groupElement = document.getElementsByClassName("text-robux-lg ng-binding")[0];
-                        groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + calculateWorth(groupElement.innerHTML) + ")";
+                        groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(groupElement.innerHTML) + ")";
                     }
 
-                    document.getElementById("nav-robux-amount").innerHTML = convertWorth(style, amount);
+                    document.getElementById("nav-robux-amount").innerHTML = await convertWorth(style, amount);
                 });
 
             }).catch((error) => {
@@ -79,17 +79,16 @@ async function convert() {
     }
 }
 
-function convertWorth(style, amount) {
+async function convertWorth(style, amount) {
     return style.toString()
         .replaceAll('%robux%', amount)
         .replaceAll('%symbol%', currencySymbol[currency])
-        .replaceAll('%worth%', calculateWorth(amount));
+        .replaceAll('%worth%', await calculateWorth(amount));
 }
 
-function calculateWorth(robux) {
-    let decimal = 3;
-    chrome.storage.local.get(['decimal'], function (result) {
-        decimal = result.decimal === undefined ? 3 : result.decimal;
+async function calculateWorth(robux) {
+    let decimal = await chrome.storage.local.get(['decimal']).then((result) => {
+        return result.decimal === undefined ? 3 : result.decimal;
     });
     const round = Math.pow(10, decimal);
     return Math.round(robux.toString().replace(/[^0-9]/g, '') * robuxWorth * round) / round;
