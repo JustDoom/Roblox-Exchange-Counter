@@ -37,7 +37,7 @@ async function convert() {
                     // Calculate worth of gamepass
                     if (document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0]) {
                         const gamepass = document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0];
-                        gamepass.innerHTML = gamepass.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(gamepass.innerHTML) + ")";
+                        gamepass.innerHTML = await convertWorth(style, gamepass.innerHTML); // gamepass.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(gamepass.innerHTML) + ")";
                     } else {
                         //const gamepass = document.getElementsByClassName("text-robux-lg")[0];
                         //gamepass.innerHTML = gamepass.innerHTML + " (" + currencySymbol[currency] + calculateWorth(gamepass.innerHTML) + ")";
@@ -48,7 +48,7 @@ async function convert() {
                         const length = gamepasses.length;
                         for (i = 0; i < length; i++) {
                             const element = gamepasses[i];
-                            element.innerHTML = element.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(element.innerHTML) + ")";
+                            element.innerHTML = await convertWorth(style, element.innerHTML);
                         }
                     }
 
@@ -56,18 +56,18 @@ async function convert() {
                         const length = document.getElementsByClassName("text-robux-tile ng-binding ng-scope").length;
                         for (i = 0; i < length; i++) {
                             const element = document.getElementsByClassName("text-robux-tile ng-binding ng-scope")[i];
-                            element.innerHTML = element.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(element.innerHTML) + ")";
+                            element.innerHTML = await convertWorth(style, element.innerHTML);
                         }
                     }
 
                     if (document.getElementsByClassName("text-robux ng-binding")[0]) {
                         const groupElement = document.getElementsByClassName("text-robux ng-binding")[0];
-                        groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(groupElement.innerHTML) + ")";
+                        groupElement.innerHTML = await convertWorth(style, groupElement.innerHTML);
                     }
 
                     if (document.getElementsByClassName("text-robux-lg ng-binding")[0]) {
                         const groupElement = document.getElementsByClassName("text-robux-lg ng-binding")[0];
-                        groupElement.innerHTML = groupElement.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(groupElement.innerHTML) + ")";
+                        groupElement.innerHTML = await convertWorth(style, groupElement.innerHTML);
                     }
 
                     document.getElementById("nav-robux-amount").innerHTML = await convertWorth(style, amount);
