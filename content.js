@@ -34,58 +34,7 @@ async function convert() {
                     let i;
                     const style = result.style === undefined ? "%robux% (%symbol%%worth%)" : result.style;
 
-                    // Calculate worth of gamepass
-                    if (document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0]) {
-                        const gamepass = document.getElementsByClassName("text-robux-lg wait-for-i18n-format-render")[0];
-                        gamepass.innerHTML = await convertWorth(style, gamepass.innerHTML); // gamepass.innerHTML + " (" + currencySymbol[currency] + await calculateWorth(gamepass.innerHTML) + ")";
-                    } else {
-                        //const gamepass = document.getElementsByClassName("text-robux-lg")[0];
-                        //gamepass.innerHTML = gamepass.innerHTML + " (" + currencySymbol[currency] + calculateWorth(gamepass.innerHTML) + ")";
-                    }
-
-                    const gamepasses = document.getElementsByClassName("text-robux");
-                    if (gamepasses.length > 0) {
-                        const length = gamepasses.length;
-                        for (i = 0; i < length; i++) {
-                            const element = gamepasses[i];
-                            element.innerHTML = await convertWorth(style, element.innerHTML);
-                        }
-                    }
-
-                    if (document.getElementsByClassName("text-robux-tile ng-binding ng-scope")) {
-                        const length = document.getElementsByClassName("text-robux-tile ng-binding ng-scope").length;
-                        for (i = 0; i < length; i++) {
-                            const element = document.getElementsByClassName("text-robux-tile ng-binding ng-scope")[i];
-                            element.innerHTML = await convertWorth(style, element.innerHTML);
-                        }
-                    }
-
-                    if (document.getElementsByClassName("text-robux-tile ng-binding")) {
-                        const length = document.getElementsByClassName("text-robux-tile ng-binding").length;
-                        for (i = 0; i < length; i++) {
-                            const element = document.getElementsByClassName("text-robux-tile ng-binding")[i];
-                            element.innerHTML = await convertWorth(style, element.innerHTML);
-                        }
-                    }
-
-                    if (document.getElementsByClassName("text-robux-tile")) {
-                        const length = document.getElementsByClassName("text-robux-tile").length;
-                        for (i = 0; i < length; i++) {
-                            const element = document.getElementsByClassName("text-robux-tile")[i];
-                            element.innerHTML = await convertWorth(style, element.innerHTML);
-                        }
-                    }
-
-                    let groupElement = document.getElementsByClassName("text-robux ng-binding");
-                    if (groupElement.length > 0) {
-                        const length = groupElement.length;
-                        for (i = 0; i < length; i++) {
-                            const element = groupElement[i];
-                            element.innerHTML = await convertWorth(style, element.innerHTML);
-                        }
-                    }
-
-                    groupElement = document.getElementsByClassName("text-robux-lg ng-binding");
+                    let groupElement = document.querySelectorAll(".text-robux, .text-robux-lg, .text-robux-tile, .ng-binding > .icon-robux-container");
                     if (groupElement.length > 0) {
                         const length = groupElement.length;
                         for (i = 0; i < length; i++) {
