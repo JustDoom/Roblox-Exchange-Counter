@@ -60,14 +60,38 @@ async function convert() {
                         }
                     }
 
-                    if (document.getElementsByClassName("text-robux ng-binding")[0]) {
-                        const groupElement = document.getElementsByClassName("text-robux ng-binding")[0];
-                        groupElement.innerHTML = await convertWorth(style, groupElement.innerHTML);
+                    if (document.getElementsByClassName("text-robux-tile ng-binding")) {
+                        const length = document.getElementsByClassName("text-robux-tile ng-binding").length;
+                        for (i = 0; i < length; i++) {
+                            const element = document.getElementsByClassName("text-robux-tile ng-binding")[i];
+                            element.innerHTML = await convertWorth(style, element.innerHTML);
+                        }
                     }
 
-                    if (document.getElementsByClassName("text-robux-lg ng-binding")[0]) {
-                        const groupElement = document.getElementsByClassName("text-robux-lg ng-binding")[0];
-                        groupElement.innerHTML = await convertWorth(style, groupElement.innerHTML);
+                    if (document.getElementsByClassName("text-robux-tile")) {
+                        const length = document.getElementsByClassName("text-robux-tile").length;
+                        for (i = 0; i < length; i++) {
+                            const element = document.getElementsByClassName("text-robux-tile")[i];
+                            element.innerHTML = await convertWorth(style, element.innerHTML);
+                        }
+                    }
+
+                    let groupElement = document.getElementsByClassName("text-robux ng-binding");
+                    if (groupElement.length > 0) {
+                        const length = groupElement.length;
+                        for (i = 0; i < length; i++) {
+                            const element = groupElement[i];
+                            element.innerHTML = await convertWorth(style, element.innerHTML);
+                        }
+                    }
+
+                    groupElement = document.getElementsByClassName("text-robux-lg ng-binding");
+                    if (groupElement.length > 0) {
+                        const length = groupElement.length;
+                        for (i = 0; i < length; i++) {
+                            const element = groupElement[i];
+                            element.innerHTML = await convertWorth(style, element.innerHTML);
+                        }
                     }
 
                     document.getElementById("nav-robux-amount").innerHTML = await convertWorth(style, amount);
