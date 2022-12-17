@@ -27,28 +27,21 @@ async function convert() {
         const balance = await fetch('https://economy.roblox.com/v1/user/currency')
             .then((response) => {
                 return response.json();
-            })
-            .then((data) => {
-                const amount = data['robux'];
-                chrome.storage.local.get(['style'], async function (result) {
-                    let i;
-                    const style = result.style === undefined ? "%robux% (%symbol%%worth%)" : result.style;
-
-                    let groupElement = document.querySelectorAll(".text-robux, .text-robux-lg, .text-robux-tile, .ng-binding > .icon-robux-container");
-                    if (groupElement.length > 0) {
-                        const length = groupElement.length;
-                        for (i = 0; i < length; i++) {
-                            const element = groupElement[i];
-                            element.innerHTML = await convertWorth(style, element.innerHTML);
-                        }
-                    }
-
-                    document.getElementById("nav-robux-amount").innerHTML = await convertWorth(style, amount);
-                });
-
             }).catch((error) => {
                 document.getElementById("nav-robux-amount").innerHTML = error;
             });
+
+        const style = await chrome.storage.local.get(['style']).then((result) => {
+            return result.style === undefined ? "%robux% (%symbol%%worth%)" : result.style;
+        });
+
+        let groupElement = document.querySelectorAll(".text-robux, .text-robux-lg, .text-robux-tile");
+        for (let i = 0; i < groupElement.length; i++) {
+            const element = groupElement[i];
+            element.innerHTML = await convertWorth(style, element.innerHTML);
+        }
+
+        document.getElementById("nav-robux-amount").innerHTML = await convertWorth(style, balance.robux);
     }
 }
 
