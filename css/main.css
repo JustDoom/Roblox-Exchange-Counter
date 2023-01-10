@@ -1,0 +1,30 @@
+html {
+    background: #1F2937;
+    color: #fff;
+}
+
+.title {
+    position: absolute;
+    width: 188px;
+    height: 25px;
+    left: 25px;
+    top: 16px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 23px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+body {
+    width: 239px;
+    height: 440px;
+}
+
+.container {
+    height: 100%;
+}
