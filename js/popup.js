@@ -18,60 +18,46 @@ const currencySymbol = {
     'USD': '\u0024',
 };
 
-document.addEventListener('DOMContentLoaded',function () {
+document.addEventListener('DOMContentLoaded', function () {
     const convertButton = document.getElementById('convert-button');
-    convertButton.addEventListener('click', function () {
-        const output = document.getElementById("convert-output");
-        const input = document.getElementById("convert-input");
-        output.innerText = "Worth: " + currencySymbol[currency] + (input.value.replace(/[^0-9]/g, '') * robuxWorth);
-    });
-
-    // Listen for currency type change
+    const output = document.getElementById("convert-output");
+    const input = document.getElementById("convert-input");
     const currencyOption = document.getElementById('currency');
-    currencyOption.addEventListener('change', function () {
-        chrome.storage.local.set({'currency': currencyOption.value});
-        currency = currencyOption.value;
-    });
-
-    // Get currency type from storage
-    chrome.storage.local.get(['currency'], function (result) {
-        if (result.currency === undefined) {
-            chrome.storage.local.set({'currency': "USD"});
-            result.currency = "USD";
-        }
-
-        currencyOption.value = result.currency;
-    });
-
-    // Listen for style change
     const style = document.getElementById('look-style');
-    style.addEventListener('change', function () {
-        chrome.storage.local.set({'style': style.value});
-    });
-
-    // Get the style from storage
-    chrome.storage.local.get(['style'], function (result) {
-        if (result.style === undefined) {
-            chrome.storage.local.set({'style': "%robux% (%symbol%%worth%)"});
-            result.style = "%robux% (%symbol%%worth%)";
-        }
-
-        style.value = result.style;
-    });
-
-    // Listen for decimal change
     const decimalEle = document.getElementById('decimal');
-    decimalEle.addEventListener('change', function () {
-        chrome.storage.local.set({'decimal': decimalEle.value});
+
+    // Initialize currency and style from storage
+    chrome.storage.local.get(['currency', 'style', 'decimal'], function (result) {
+        currency = result.currency || "USD";
+        currencyOption.value = currency;
+        style.value = result.style || "%robux% (%symbol%%worth%)";
+        decimalEle.value = result.decimal || "3";
     });
 
-    // Get the decimal from storage
-    chrome.storage.local.get(['decimal'], function (result) {
-        if (result.decimal === undefined) {
-            chrome.storage.local.set({'decimal': "3"});
-            result.decimal = "3";
-        }
+    // Convert button click event
+    convertButton.addEventListener('click', function () {
+        const inputValue = input.value.replace(/[^0-9]/g, '');
+        const convertedValue = inputValue * robuxWorth;
+        const formattedValue = currencySymbol[currency] + convertedValue.toFixed(decimalEle.value);
+        output.innerText = `Worth: ${formattedValue}`;
+    });
 
-        decimalEle.value = result.decimal;
+    // Currency type change event
+    currencyOption.addEventListener('change', function () {
+        const newCurrency = currencyOption.value;
+        chrome.storage.local.set({ 'currency': newCurrency });
+        currency = newCurrency;
+    });
+
+    // Style change event
+    style.addEventListener('change', function () {
+        const newStyle = style.value;
+        chrome.storage.local.set({ 'style': newStyle });
+    });
+
+    // Decimal change event
+    decimalEle.addEventListener('change', function () {
+        const newDecimal = decimalEle.value;
+        chrome.storage.local.set({ 'decimal': newDecimal });
     });
 });

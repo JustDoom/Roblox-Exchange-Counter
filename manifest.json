@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Robux Worth Counter",
-  "description": "Display how much money worth of robux you have!",
+  "description": "Displays how much money worth of robux you have using the DexEx rate",
   "version": "2.0.0",
   "browser_action": {
     "default_icon": "icon.png",
