@@ -1,42 +1,123 @@
+/*
+    Overrides
+ */
+
 html {
     background: #1F2937;
     color: #fff;
     overflow-x: hidden;
 }
 
-.title {
-    position: absolute;
-    width: 188px;
-    height: 25px;
-    left: 25px;
-    top: 16px;
+body {
+    width: 239px;
+    height: 440px;
+    margin: 0;
+    padding: 0;
+}
 
+/*
+    Divs
+ */
+
+.container {
+    margin-top: 16px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.centered-div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /*overflow: hidden;*/
+}
+
+.setting-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*
+    Classes
+ */
+
+.circle {
+    height: 392px;
+    width: 392px;
+    background-color: #16a34a;
+    border-radius: 50%;
+    position: absolute;
+    top: -207px;
+    left: -77px;
+    z-index: -1;
+}
+
+.title {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 23px;
+    font-weight: bold;
+    font-size: 18px;
+    /*line-height: 23px;*/
     text-align: center;
+
+    overflow: visible;
+    white-space: nowrap;
 
     color: #FFFFFF;
 }
 
-body {
-    width: 239px;
-    height: 440px;
+.text {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
 }
 
-.container {
-    height: 100%;
+.text-box {
+    background: #1f2937;
+    padding: 5px;
+    border: none;
+    color: #c7c7c7;
+    font-weight: bold;
+    border-radius: 4px;
+    outline: none;
 }
 
-.circle {
-    height: 350px;
-    width: 350px;
-    background-color: #1d9a00;
-    border-radius: 50%;
-    display: inline-block;
-    margin-top: -200px;
+.setting {
     margin-left: auto;
-    margin-right: auto;
+    order: 1;
+}
+
+.dropdown {
+    background: #1f2937;
+    padding: 5px;
+    border: none;
+    color: #c7c7c7;
+    font-weight: bold;
+    border-radius: 4px;
+    outline: none;
+}
+
+.convert {
+    background: #15803d;
+    height: 25px;
+    width: 95px;
+    color: white;
+    border: none;
+    border-radius: 10cm;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.margin-bottom {
+    margin-bottom: 7px;
+}
+
+.checkbox:checked {
+    background-color: #16a34a;
+}
+
+.checkbox {
+    background-color: #16a34a;
 }

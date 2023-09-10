@@ -6,49 +6,59 @@
     <title>Calc</title>
 </head>
 <body>
+<!--  Circle  -->
+<div class="centered-div"><span class="circle"></span></div>
+
+<!--  Calculator  -->
 <div class="container">
-    <span class="circle"></span>
-    <span class="title">Robux to $ Converter</span>
-<!--    <div>-->
-<!--        <div>-->
-<!--            <input type="number" id="convert-input" placeholder="Amount Here"/>-->
-<!--            <button id="convert-button">Convert</button>-->
-<!--            <p id="convert-output"></p>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <p>Convert Options</p>-->
-<!--            <select id="currency">-->
-<!--                <option value="AUD">AUD</option>-->
-<!--                <option value="CAD">CAD</option>-->
-<!--                <option value="EUR">EUR</option>-->
-<!--                <option value="GBP">GBP</option>-->
-<!--                <option value="HKD">HKD</option>-->
-<!--                <option value="INR">INR</option>-->
-<!--                <option value="JPY">JPY</option>-->
-<!--                <option value="NZD">NZD</option>-->
-<!--                <option value="PHP">PHP</option>-->
-<!--                <option value="RUB">RUB</option>-->
-<!--                <option value="THB">THB</option>-->
-<!--                <option value="TRY">TRY</option>-->
-<!--                <option value="USD">USD</option>-->
-<!--            </select>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <h4>Settings</h4>-->
-<!--        <div>-->
-<!--            <p>-->
-<!--                <label class="container">Look Style:-->
-<!--                    <input type="text" id="look-style">-->
-<!--                </label>-->
-<!--            </p>-->
-<!--            <p>-->
-<!--                <label class="container">Round to decimal places:-->
-<!--                    <input type="number" id="decimal">-->
-<!--                </label>-->
-<!--            </p>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="centered-div margin-bottom"><span class="title">Robux to $ Calculator</span></div>
+    <div class="margin-bottom" style="display: flex">
+        <input type="text" placeholder="Robux" value="R$ 200" class="text-box" style="width: 115px;">
+        <select class="dropdown" style="margin-left: 10px">
+            <option>AUD</option>
+            <option>USD</option>
+            <option>YEN</option>
+        </select>
+    </div>
+    <div class="centered-div margin-bottom">
+        <button class="convert">Convert</button>
+    </div>
+    <div class="centered-div"><input type="text" placeholder="$ Worth" class="text-box" style="width: 100%"></div>
+
+    <!--  Settings  -->
+    <div style="margin-top: 55px">
+        <span class="title">Settings</span><br>
+        <div class="setting-div">
+            <span class="text">Replace Robux Amount</span>
+            <input type="checkbox" class="checkbox">
+        </div>
+        <div class="setting-div">
+            <span class="text">Replace Gamepasses</span>
+            <input type="checkbox" class="checkbox">
+        </div>
+        <div class="setting-div">
+            <span class="text">Replace Clothing</span>
+            <input type="checkbox" class="checkbox">
+        </div>
+        <div class="setting-div">
+            <span class="text">Replace Currency</span>
+            <input type="checkbox" class="setting checkbox">
+        </div>
+        <br>
+        <div class="setting-div">
+            <span class="text">Conversion Currency</span>
+            <select class="dropdown" style="margin-left: 5px; background: #374151">
+                <option>AUD</option>
+                <option>USD</option>
+                <option>YEN</option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <span class="text">Layout</span>
+            <input style="background: #374151" type="text" placeholder="$ Worth" class="text-box">
+        </div>
+    </div>
 </div>
 </body>
 </html>
