@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const output = document.getElementById("convert-output");
     const input = document.getElementById("convert-input");
     const currencyOption = document.getElementById('currency');
-    const style = document.getElementById('look-style');
+    const style = document.getElementById('layout');
     const decimalEle = document.getElementById('decimal');
 
     // Initialize currency and style from storage
-    chrome.storage.local.get(['currency', 'style', 'decimal'], function (result) {
+    browser.storage.local.get(['currency', 'style', 'decimal']).then(result => {
         currency = result.currency || "USD";
         currencyOption.value = currency;
         style.value = result.style || "%robux% (%symbol%%worth%)";
@@ -52,12 +52,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Style change event
     style.addEventListener('change', function () {
         const newStyle = style.value;
-        chrome.storage.local.set({ 'style': newStyle });
+        browser.storage.local.set({ 'style': newStyle });
     });
 
     // Decimal change event
     decimalEle.addEventListener('change', function () {
         const newDecimal = decimalEle.value;
-        chrome.storage.local.set({ 'decimal': newDecimal });
+        browser.storage.local.set({ 'decimal': newDecimal });
     });
 });

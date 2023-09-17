@@ -3,7 +3,7 @@
 <head>
     <script src="js/popup.js"></script>
     <link href="css/main.css" rel="stylesheet">
-    <title>Calc</title>
+    <title>Calculator/Settings</title>
 </head>
 <body>
 <!--  Circle  -->
@@ -30,33 +30,33 @@
         <span class="title">Settings</span><br>
         <div class="setting-div">
             <span class="text">Replace Robux Amount</span>
-            <input type="checkbox" class="checkbox">
+            <input type="checkbox" id="replace" class="checkbox">
         </div>
         <div class="setting-div">
             <span class="text">Replace Gamepasses</span>
-            <input type="checkbox" class="checkbox">
+            <input type="checkbox" id="replace-gp" class="checkbox">
         </div>
         <div class="setting-div">
             <span class="text">Replace Clothing</span>
-            <input type="checkbox" class="checkbox">
+            <input type="checkbox" id="replace-c" class="checkbox">
         </div>
         <div class="setting-div">
             <span class="text">Replace Currency</span>
-            <input type="checkbox" class="setting checkbox">
+            <input type="checkbox" id="replace-cu" class="setting checkbox">
         </div>
         <br>
         <div class="setting-div">
             <span class="text">Conversion Currency</span>
-            <select class="dropdown" style="margin-left: 5px; background: #374151">
-                <option>AUD</option>
-                <option>USD</option>
-                <option>YEN</option>
+            <select class="dropdown" id="currency" style="margin-left: 5px; background: #374151">
+                <option value="aud">AUD</option>
+                <option value="usd">USD</option>
+                <option value="yen">YEN</option>
             </select>
         </div>
         <br>
         <div>
             <span class="text">Layout</span>
-            <input style="background: #374151" type="text" placeholder="$ Worth" class="text-box">
+            <input id="layout" style="background: #374151" type="text" placeholder="$ Worth" class="text-box">
         </div>
     </div>
 </div>
