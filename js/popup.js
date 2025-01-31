@@ -35,13 +35,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const decimalEle = document.getElementById('decimal');
     const replaceBalance = document.getElementById('replace');
     const replaceElse = document.getElementById('replace-everything');
+    const convertInput = document.getElementById('convert-input');
 
     let convertCurrency;
     let convertValue;
 
-    populateCurrencyOptions("convert-currency");
     populateCurrencyOptions("currency")
-
+    populateCurrencyOptions("convert-currency");
 
     const checkInterval = setInterval(updateCheckboxes, 100);
 
@@ -52,15 +52,14 @@ document.addEventListener('DOMContentLoaded', function () {
             clearInterval(checkInterval);
 
             // Initialize currency and style from storage
-            browser.storage.local.get(['currency', 'style', 'decimal', 'replaceBalance', 'replaceElse']).then(result => {
-                const currencyOption = document.getElementById('convert-currency');
-                const convertCurrencyOption = document.getElementById('currency');
-                const style = document.getElementById('layout');
-                const decimalEle = document.getElementById('decimal');
-
+            browser.storage.local.get(['currency', 'style', 'decimal', 'replaceBalance', 'replaceElse', 'convertCurrency', 'convertAmount']).then(result => {
                 if (currencyOption && convertCurrencyOption) {
                     currencyOption.value = result.currency || "USD";
-                    convertCurrencyOption.value = result.currency || "USD";
+                    convertCurrencyOption.value = result.convertCurrency || currencyOption.value;
+                }
+
+                if (convertInput) {
+                    convertInput.value = result.convertAmount || "R$200"
                 }
 
                 if (style) {
@@ -75,12 +74,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 replaceBalance.checked = result.replaceBalance !== undefined ? result.replaceBalance : true;
                 replaceElse.checked = result.replaceElse !== undefined ? result.replaceElse : true;
 
+                // These dont fire unless put here :)
                 replaceBalance.addEventListener('change', function () {
                     browser.storage.local.set({ 'replaceBalance': this.checked });
                 });
 
                 replaceElse.addEventListener('change', function () {
                     browser.storage.local.set({ 'replaceElse': this.checked });
+                });
+
+                convertInput.addEventListener('change', function () {
+                    browser.storage.local.set({ 'convertAmount': this.value });
+                });
+
+                convertCurrencyOption.addEventListener('change', function () {
+                    const newValue = convertCurrencyOption.value;
+                    browser.storage.local.set({ 'convertCurrency': newValue });
                 });
             }).catch(error => {
                 console.error("Error retrieving data from storage:", error);
