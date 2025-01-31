@@ -92,7 +92,10 @@ async function calculateWorth(robux) {
 
 async function getCurrentAccountRobux() {
     try {
-        const response = await fetch('https://economy.roblox.com/v1/user/currency');
+        const response = await fetch('https://economy.roblox.com/v1/user/currency', {
+            method: 'GET',
+            credentials: 'include' // Ensure cookies are sent automatically
+        });
         const data = await response.json();
         return data.robux;
     } catch (error) {
