@@ -13,12 +13,8 @@
 <div class="container">
     <div class="centered-div margin-bottom"><span class="title">Robux to $ Calculator</span></div>
     <div class="margin-bottom" style="display: flex">
-        <input id="convert-input" type="text" placeholder="Robux" value="R$ 200" class="text-box" style="width: 115px;">
-        <select class="dropdown" style="margin-left: 10px">
-            <option>AUD</option>
-            <option>USD</option>
-            <option>YEN</option>
-        </select>
+        <input id="convert-input" type="text" placeholder="Robux" value="R$200" class="text-box" style="width: 83px;">
+        <select class="dropdown" id="convert-currency" style="margin-left: 10px"></select>
     </div>
     <div class="centered-div margin-bottom">
         <button id="convert-button" class="convert">Convert</button>
@@ -33,25 +29,25 @@
             <input type="checkbox" id="replace" class="checkbox">
         </div>
         <div class="setting-div">
-            <span class="text">Replace Gamepasses</span>
-            <input type="checkbox" id="replace-gp" class="checkbox">
+            <span class="text">Replace Everything Else</span>
+            <input type="checkbox" id="replace-everything" class="checkbox">
         </div>
-        <div class="setting-div">
-            <span class="text">Replace Clothing</span>
-            <input type="checkbox" id="replace-c" class="checkbox">
-        </div>
-        <div class="setting-div">
-            <span class="text">Replace Currency</span>
-            <input type="checkbox" id="replace-cu" class="setting checkbox">
-        </div>
+<!--        <div class="setting-div">-->
+<!--            <span class="text">Replace Gamepasses</span>-->
+<!--            <input type="checkbox" id="replace-gp" class="checkbox">-->
+<!--        </div>-->
+<!--        <div class="setting-div">-->
+<!--            <span class="text">Replace Clothing</span>-->
+<!--            <input type="checkbox" id="replace-c" class="checkbox">-->
+<!--        </div>-->
+<!--        <div class="setting-div">-->
+<!--            <span class="text">Replace Currency</span>-->
+<!--            <input type="checkbox" id="replace-cu" class="setting checkbox">-->
+<!--        </div>-->
         <br>
         <div class="setting-div">
             <span class="text">Conversion Currency</span>
-            <select class="dropdown" id="currency" style="margin-left: 5px; background: #374151">
-                <option value="aud">AUD</option>
-                <option value="usd">USD</option>
-                <option value="yen">YEN</option>
-            </select>
+            <select class="dropdown" id="currency" style="margin-left: 10px; background: #16a34a; color: white"></select>
         </div>
         <br>
         <div>
