@@ -39,7 +39,7 @@ browser.storage.local.get(['replaceBalance', 'replaceElse', 'value', `lastFetche
         })
     }
 
-    if (result.replaceBalance !== undefined ? result.replaceBalance : true) {
+    if (result.replaceElse !== undefined ? result.replaceElse : true) {
         waitForElements([".text-robux", ".text-robux-lg", ".text-robux-tile"], (element) => {
             observeContent(element);
             if (element.innerHTML.trim() !== "") {
@@ -48,7 +48,7 @@ browser.storage.local.get(['replaceBalance', 'replaceElse', 'value', `lastFetche
         });
     }
 
-    if (result.replaceElse !== undefined ? result.replaceElse : true) {
+    if (result.replaceBalance !== undefined ? result.replaceBalance : true) {
         waitForElements(["#nav-robux-amount"], async (element) => {
             observeContent(element);
             if (element.innerHTML.trim() !== "") {
