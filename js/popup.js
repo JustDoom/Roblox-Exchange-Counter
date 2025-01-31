@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById("convert-input");
     const currencyOption = document.getElementById('currency');
     const style = document.getElementById('layout');
-    const decimalEle = document.getElementById('decimal');
+    // const decimalEle = document.getElementById('decimal');
     const replaceBalance = document.getElementById('replace');
     const replaceElse = document.getElementById('replace-everything');
     const convertInput = document.getElementById('convert-input');
@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     style.value = result.style || "%robux% (%symbol%%worth%)";
                 }
 
-                if (decimalEle) {
-                    decimalEle.value = result.decimal || "3";
-                }
+                // if (decimalEle) {
+                //     decimalEle.value = result.decimal || "3";
+                // }
 
                 // Update checkbox states
                 replaceBalance.checked = result.replaceBalance !== undefined ? result.replaceBalance : true;
@@ -128,10 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Decimal change event
-    decimalEle.addEventListener('change', function () {
-        const newDecimal = decimalEle.value;
-        browser.storage.local.set({ 'decimal': newDecimal });
-    });
+    // decimalEle.addEventListener('change', function () {
+    //     const newDecimal = decimalEle.value;
+    //     browser.storage.local.set({ 'decimal': newDecimal });
+    // });
 });
 
 function populateCurrencyOptions(element) {
