@@ -13,7 +13,7 @@
 <div class="container">
     <div class="centered-div margin-bottom"><span class="title">Robux to $ Calculator</span></div>
     <div class="margin-bottom" style="display: flex">
-        <input type="text" placeholder="Robux" value="R$ 200" class="text-box" style="width: 115px;">
+        <input id="convert-input" type="text" placeholder="Robux" value="R$ 200" class="text-box" style="width: 115px;">
         <select class="dropdown" style="margin-left: 10px">
             <option>AUD</option>
             <option>USD</option>
@@ -21,9 +21,9 @@
         </select>
     </div>
     <div class="centered-div margin-bottom">
-        <button class="convert">Convert</button>
+        <button id="convert-button" class="convert">Convert</button>
     </div>
-    <div class="centered-div"><input type="text" placeholder="$ Worth" class="text-box" style="width: 100%"></div>
+    <div class="centered-div"><input id="convert-output" type="text" disabled placeholder="$ Worth" class="text-box" style="width: 100%"></div>
 
     <!--  Settings  -->
     <div style="margin-top: 55px">

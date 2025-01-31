@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
     convertButton.addEventListener('click', function () {
         const inputValue = input.value.replace(/[^0-9]/g, '');
         const convertedValue = inputValue * robuxWorth;
-        const formattedValue = currencySymbol[currency] + convertedValue.toFixed(decimalEle.value);
-        output.innerText = `Worth: ${formattedValue}`;
+        const formattedValue = currencySymbol[currency] + convertedValue.toFixed(3);
+        output.value = `Worth: ${formattedValue}`;
     });
 
     // Currency type change event
