@@ -18,18 +18,24 @@ const currencySymbol = {
     'USD': '\u0024',
 };
 
-waitForElements([".text-robux", ".text-robux-lg", ".text-robux-tile"], (element) => {
-    observeContent(element);
-    if (element.innerHTML.trim() !== "") {
-        convert(element, element.innerHTML);
+browser.storage.local.get(['replaceBalance', 'replaceElse']).then(result => {
+    if (result.replaceBalance !== undefined ? result.replaceBalance : true) {
+        waitForElements([".text-robux", ".text-robux-lg", ".text-robux-tile"], (element) => {
+            observeContent(element);
+            if (element.innerHTML.trim() !== "") {
+                convert(element, element.innerHTML);
+            }
+        });
     }
-});
 
-waitForElements(["#nav-robux-amount"], async (element) => {
-    observeContent(element);
-    if (element.innerHTML.trim() !== "") {
-        const robux = await getCurrentAccountRobux();
-        convert(element, robux);
+    if (result.replaceElse !== undefined ? result.replaceElse : true) {
+        waitForElements(["#nav-robux-amount"], async (element) => {
+            observeContent(element);
+            if (element.innerHTML.trim() !== "") {
+                const robux = await getCurrentAccountRobux();
+                convert(element, robux);
+            }
+        });
     }
 });
 
@@ -39,7 +45,7 @@ async function convert(element, value) {
 }
 
 async function styleWorth(amount) {
-    const style = await chrome.storage.local.get(['style']).then((result) => {
+    const style = await browser.storage.local.get(['style']).then((result) => {
         return result.style === undefined ? "%robux% (%symbol%%worth%)" : result.style;
     });
 
@@ -50,7 +56,7 @@ async function styleWorth(amount) {
 }
 
 async function calculateWorth(robux) {
-    let decimal = await chrome.storage.local.get(['decimal']).then((result) => {
+    let decimal = await browser.storage.local.get(['decimal']).then((result) => {
         return result.decimal === undefined ? 3 : result.decimal;
     });
     const round = Math.pow(10, decimal);

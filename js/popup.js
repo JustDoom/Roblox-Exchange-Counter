@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Currency type change event
     currencyOption.addEventListener('change', function () {
         const newCurrency = currencyOption.value;
-        chrome.storage.local.set({ 'currency': newCurrency });
+        browser.storage.local.set({ 'currency': newCurrency });
         currency = newCurrency;
     });
 
