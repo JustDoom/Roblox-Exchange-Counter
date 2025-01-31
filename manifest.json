@@ -10,7 +10,8 @@
   "permissions": [
     "activeTab",
     "storage",
-    "https://economy.roblox.com/v1/user/currency"
+    "https://economy.roblox.com/v1/user/currency",
+    "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json"
   ],
   "content_scripts": [
     {

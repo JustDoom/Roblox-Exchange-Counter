@@ -1,24 +1,44 @@
 const robuxWorth = 0.0035;
 let currency = "USD";
+let lastFetched;
+let value;
 
 // TODO: make this a json file or something. maybe in the currency API
 const currencySymbol = {
-    'AUD': '\u0024',
-    'CAD': '\u0024',
-    'EUR': '\u20AC',
-    'GBP': '\u00A3',
-    'HKD': '\u0024',
-    'INR': '\u20B9',
-    'JPY': '\u00A5',
-    'NZD': '\u0024',
-    'PHP': '\u20B1',
-    'RUB': '\u20BD',
-    'THB': '\u0E3F',
-    'TRY': '\u20BA',
-    'USD': '\u0024',
+    'AUD': '\u0024', // Australian Dollar
+    'USD': '\u0024', // United States Dollar
+    'GBP': '\u00A3', // British Pound
+    'EUR': '\u20AC', // Euro
+    'JPY': '\u00A5', // Japanese Yen
+    'CAD': '\u0024', // Canadian Dollar
+    'CHF': '\u20A3', // Swiss Franc
+    'CNY': '\u00A5', // Chinese Yuan (Renminbi)
+    'INR': '\u20B9', // Indian Rupee
+    'KRW': '\u20A9', // South Korean Won
+    'BRL': '\u0052\u0024', // Brazilian Real (R$)
+    'RUB': '\u20BD', // Russian Ruble
+    'ZAR': '\u0052', // South African Rand
+    'MXN': '\u0024', // Mexican Peso
+    'NZD': '\u0024', // New Zealand Dollar
+    'SGD': '\u0024', // Singapore Dollar
+    'TRY': '\u20BA', // Turkish Lira
+    'SEK': '\u006B\u0072', // Swedish Krona (kr)
+    'NOK': '\u006B\u0072', // Norwegian Krone (kr)
+    'DKK': '\u006B\u0072', // Danish Krone (kr)
 };
 
-browser.storage.local.get(['replaceBalance', 'replaceElse']).then(result => {
+browser.storage.local.get(['replaceBalance', 'replaceElse', 'value', `lastFetched`, `currency`]).then(async result => {
+    lastFetched = result.lastFetched || 0;
+    value = result.value || 1;
+    currency = result.currency || "USD";
+
+    if (Date.now() - lastFetched > 21600000 || value === -1) { // Every 6 hours or on currency switch
+        fetchNewData().then(data => {
+            value = data[currency.toLowerCase()];
+            browser.storage.local.set({ 'lastFetched': Date.now(), 'value': value });
+        })
+    }
+
     if (result.replaceBalance !== undefined ? result.replaceBalance : true) {
         waitForElements([".text-robux", ".text-robux-lg", ".text-robux-tile"], (element) => {
             observeContent(element);
@@ -39,8 +59,15 @@ browser.storage.local.get(['replaceBalance', 'replaceElse']).then(result => {
     }
 });
 
+async function fetchNewData() {
+    const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json');
+    if (!response.ok) alert(response.status)
+    const data = await response.json();
+    return data.usd;
+}
+
 async function convert(element, value) {
-    if (value.toString().includes("$") || !hasNumber(value)) return;
+    if (value.toString().includes(currencySymbol[currency]) || !hasNumber(value)) return;
     element.innerHTML = await styleWorth(value);
 }
 
@@ -60,7 +87,7 @@ async function calculateWorth(robux) {
         return result.decimal === undefined ? 3 : result.decimal;
     });
     const round = Math.pow(10, decimal);
-    return Math.round(robux.toString().replace(/[^0-9]/g, '') * robuxWorth * round) / round;
+    return Math.round(robux.toString().replace(/[^0-9]/g, '') * robuxWorth * round * value) / round;
 }
 
 async function getCurrentAccountRobux() {

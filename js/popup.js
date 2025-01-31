@@ -7,7 +7,7 @@ const currencySymbol = {
     'USD': '\u0024', // United States Dollar
     'GBP': '\u00A3', // British Pound
     'EUR': '\u20AC', // Euro
-    'YEN': '\u00A5', // Japanese Yen
+    'JPY': '\u00A5', // Japanese Yen
     'CAD': '\u0024', // Canadian Dollar
     'CHF': '\u20A3', // Swiss Franc
     'CNY': '\u00A5', // Chinese Yuan (Renminbi)
@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const decimalEle = document.getElementById('decimal');
     const replaceBalance = document.getElementById('replace');
     const replaceElse = document.getElementById('replace-everything');
+
+    let convertCurrency;
+    let convertValue;
 
     populateCurrencyOptions("convert-currency");
     populateCurrencyOptions("currency")
@@ -86,17 +89,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Convert button click event
-    convertButton.addEventListener('click', function () {
+    convertButton.addEventListener('click', async function () {
+        const convertCurrencyValue = convertCurrencyOption.value;
+
+        if (convertCurrency !== convertCurrencyValue) {
+            await fetchNewData().then(data => {
+                convertValue = data[convertCurrencyValue.toLowerCase()];
+                convertCurrency = convertCurrencyValue;
+            })
+        }
+
         const inputValue = input.value.replace(/[^0-9]/g, '');
-        const convertedValue = inputValue * robuxWorth;
-        const formattedValue = currencySymbol[convertCurrencyOption.value] + convertedValue.toFixed(3);
-        output.value = `Worth: ${formattedValue}`;
+        const round = Math.pow(10, 3);
+        const formattedValue = Math.round(inputValue.toString().replace(/[^0-9]/g, '') * robuxWorth * round * convertValue) / round;
+        output.value = `Worth: ${currencySymbol[convertCurrencyValue]}${formattedValue}`;
     });
 
     // Currency type change event
     currencyOption.addEventListener('change', function () {
         const newCurrency = currencyOption.value;
-        browser.storage.local.set({ 'currency': newCurrency });
+        browser.storage.local.set({ 'currency': newCurrency, 'value': -1 });
         currency = newCurrency;
     });
 
@@ -122,4 +134,11 @@ function populateCurrencyOptions(element) {
         option.textContent = `${currencyCode} (${symbol})`;
         selectElement.appendChild(option);
     }
+}
+
+async function fetchNewData() {
+    const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json');
+    if (!response.ok) alert(response.status)
+    const data = await response.json();
+    return data.usd;
 }
