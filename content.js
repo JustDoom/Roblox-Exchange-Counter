@@ -18,53 +18,31 @@ const currencySymbol = {
     'USD': '\u0024',
 };
 
-async function convertRobuxAmount() {
-    const targetElement = document.getElementById("nav-robux-amount");
-
-    if (!targetElement) {
-        const observer = new MutationObserver((mutationsList, observer) => {
-            for (const mutation of mutationsList) {
-                if (mutation.type === 'childList' && mutation.target.id === 'nav-robux-amount') {
-                    const currentValue = mutation.target.innerHTML;
-                    if (currentValue !== "") {
-                        observer.disconnect();
-                        convert(currentValue);
-                    }
-                }
-            }
-        });
-        
-        observer.observe(document.body, {childList: true, subtree: true});
-    } else {
-        const currentValue = targetElement.innerHTML;
-        if (currentValue !== "") {
-            convert(currentValue);
-        }
+waitForElements([".text-robux", ".text-robux-lg", ".text-robux-tile"], (element) => {
+    observeContent(element);
+    if (element.innerHTML.trim() !== "") {
+        convert(element, element.innerHTML);
     }
+});
+
+waitForElements(["#nav-robux-amount"], async (element) => {
+    observeContent(element);
+    if (element.innerHTML.trim() !== "") {
+        const robux = await getCurrentAccountRobux();
+        convert(element, robux);
+    }
+});
+
+async function convert(element, value) {
+    if (value.toString().includes("$") || !hasNumber(value)) return;
+    element.innerHTML = await styleWorth(value);
 }
 
-async function convert(value) {
-    const balance = await fetch('https://economy.roblox.com/v1/user/currency')
-        .then((response) => {
-            return response.json();
-        }).catch((error) => {
-            document.getElementById("nav-robux-amount").innerHTML = error;
-        });
-
+async function styleWorth(amount) {
     const style = await chrome.storage.local.get(['style']).then((result) => {
         return result.style === undefined ? "%robux% (%symbol%%worth%)" : result.style;
     });
 
-    let groupElement = document.querySelectorAll(".text-robux, .text-robux-lg, .text-robux-tile");
-    for (let i = 0; i < groupElement.length; i++) {
-        const element = groupElement[i];
-        element.innerHTML = await convertWorth(style, element.innerHTML);
-    }
-
-    document.getElementById("nav-robux-amount").innerHTML = await convertWorth(style, balance.robux);
-}
-
-async function convertWorth(style, amount) {
     return style.toString()
         .replaceAll('%robux%', amount)
         .replaceAll('%symbol%', currencySymbol[currency])
@@ -79,4 +57,60 @@ async function calculateWorth(robux) {
     return Math.round(robux.toString().replace(/[^0-9]/g, '') * robuxWorth * round) / round;
 }
 
-convertRobuxAmount();
+async function getCurrentAccountRobux() {
+    try {
+        const response = await fetch('https://economy.roblox.com/v1/user/currency');
+        const data = await response.json();
+        return data.robux;
+    } catch (error) {
+        document.getElementById("nav-robux-amount").innerHTML = error;
+    }
+}
+
+function hasNumber(value) {
+    return /\d/.test(value);
+}
+
+function waitForElements(selectors, callback) {
+    const foundElements = new Set();
+
+    const observer = new MutationObserver(() => {
+        for (const selector of selectors) {
+            const elements = document.querySelectorAll(selector); // Select all elements
+            elements.forEach((element) => {
+                if (!foundElements.has(element)) {
+                    foundElements.add(element);
+                    callback(element, selector);
+                }
+            });
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    selectors.forEach((selector) => {
+        const elements = document.querySelectorAll(selector); // Select all elements
+        elements.forEach((element) => {
+            if (!foundElements.has(element)) {
+                foundElements.add(element);
+                callback(element, selector);
+            }
+        });
+    });
+
+    if (foundElements.size >= selectors.length) {
+        observer.disconnect();
+    }
+}
+
+function observeContent(element) {
+    const observer = new MutationObserver(() => {
+        if (element.innerHTML.trim() !== "") {
+            observer.disconnect();
+            console.log("loaded")
+            convert(element, element.innerHTML);
+        }
+    });
+
+    observer.observe(element, { childList: true, subtree: true });
+}
