@@ -60,10 +60,17 @@ browser.storage.local.get(['replaceBalance', 'replaceElse', 'value', `lastFetche
 });
 
 async function fetchNewData() {
-    const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json');
-    if (!response.ok) alert(response.status)
-    const data = await response.json();
-    return data.usd;
+    try {
+        let response = await browser.runtime.sendMessage({ action: "fetch_currency_data" });
+        if (!response.success) {
+            console.error("Error fetching currency data:", response.error);
+            return undefined;
+        }
+
+        return response.data.usd;
+    } catch (error) {
+        console.error("Message sending failed:", error);
+    }
 }
 
 async function convert(element, value) {
