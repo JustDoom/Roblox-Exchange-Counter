@@ -1,0 +1,142 @@
+/*
+    Overrides
+ */
+
+html {
+    background: #1F2937;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+body {
+    width: 239px;
+    height: 440px;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+    Divs
+ */
+
+.container {
+    margin-top: 16px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.centered-div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /*overflow: hidden;*/
+}
+
+.setting-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*
+    Classes
+ */
+
+.circle {
+    height: 392px;
+    width: 392px;
+    background-color: #16a34a;
+    border-radius: 50%;
+    position: absolute;
+    top: -207px;
+    left: -77px;
+    z-index: -1;
+}
+
+.title {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    /*line-height: 23px;*/
+    text-align: center;
+
+    overflow: visible;
+    white-space: nowrap;
+
+    color: #FFFFFF;
+}
+
+.text {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.text-box {
+    background: #1f2937;
+    padding: 5px;
+    border: none;
+    color: #c7c7c7;
+    font-weight: bold;
+    border-radius: 4px;
+    outline: none;
+}
+
+.setting {
+    margin-left: auto;
+    order: 1;
+}
+
+.dropdown {
+    background: #1f2937;
+    padding: 5px;
+    border: none;
+    color: #c7c7c7;
+    font-weight: bold;
+    border-radius: 4px;
+    outline: none;
+}
+
+.convert {
+    background: #15803d;
+    height: 25px;
+    width: 95px;
+    color: white;
+    border: none;
+    border-radius: 10cm;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.margin-bottom {
+    margin-bottom: 7px;
+}
+
+.checkbox {
+    background-color: #1F2937;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #16a34a;
+    border-radius: 4px;
+    outline: none;
+}
+
+
+.checkbox:checked {
+    background-color: #16a34a; /* Background color when checked */
+}
+
+.checkbox:checked::after {
+    content: '\2713'; /* Unicode checkmark character */
+    display: block;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    position: relative; /* This allows us to adjust the position */
+    top: -3px; /* Adjust this value to move the checkmark up */
+}

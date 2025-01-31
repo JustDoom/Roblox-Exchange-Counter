@@ -1,93 +1,61 @@
 <!doctype html>
-<html>
-	<head>
-		<title>Test Click</title>
-	</head>
-	<style type="text/css">
-		body {
-			height: 300px;
-			width: 190px;
-			margin: 5px;
-		}
-		h1 {
-			font-size: 15px;
-			text-align: center;
-		}
-		.container {
-			font-weight: bold;
-			display: block;
-			position: relative;
-			padding-left: 10px;
-			margin-bottom: 16px;
-			cursor: pointer;
-			font-size: 13px;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}	
-	</style>
-	<body>
-		<p>
-			<h1>Robux To Money Converter</h1>
-			<input type = "text"
-				id = "robuxAmount"
-				placeholder="Amount Here" />
-		</p>
-		<p><label id="amount">Money:</label></p>
-		<button id="clickIt">Convert</button>
-		<select name="Currency" id="currency">
-			<option value="AUD">AUD</option>
-			<option value="CAD">CAD</option>
-			<option value="EUR">EUR</option>
-			<option value="GBP">GBP</option>
-			<option value="HKD">HKD</option>
-			<option value="INR">INR</option>
-			<option value="JPY">JPY</option>
-			<option value="NZD">NZD</option>
-			<option value="PHP">PHP</option>
-			<option value="RUB">RUB</option>
-			<option value="THB">THB</option>
-			<option value="TRY">TRY</option>
-			<option value="USD">USD</option>
-		  </select>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="/icon.png">
+    <script src="js/popup.js"></script>
+    <link href="css/main.css" rel="stylesheet">
+    <title>Calculator/Settings</title>
+</head>
+<body>
+<!--  Circle  -->
+<div class="centered-div"><span class="circle"></span></div>
 
-		  <p>
-			<h1>Settings</h1>
-		</p>
+<!--  Calculator  -->
+<div class="container">
+    <div class="centered-div margin-bottom"><span class="title">Robux Worth Calculator</span></div>
+    <div class="margin-bottom" style="display: flex">
+        <input id="convert-input" type="text" placeholder="Robux" value="R$200" class="text-box" style="width: 83px;">
+        <select class="dropdown" id="convert-currency" style="margin-left: 10px"></select>
+    </div>
+    <div class="centered-div margin-bottom">
+        <button id="convert-button" class="convert">Convert</button>
+    </div>
+    <div class="centered-div"><input id="convert-output" type="text" disabled placeholder="$ Worth" class="text-box" style="width: 100%"></div>
 
-		<p>
-			<label class="container">Replace Robux Amount:
-			<input type="checkbox" checked="checked" id='robux-amount-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Replace Gamepasses/clothing:
-			<input type="checkbox" checked="checked" id='robux-item-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Replace group robux:
-			<input type="checkbox" checked="checked" id='group-robux-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Show currency:
-			<input type="checkbox" checked="checked" id='currency-worth-box'>
-			<span class="checkmark"></span>
-		  </label>
-		</p>
-		<p>
-			<label class="container">Robux Worth Display Layout:
-				<select name="Robux Format" id="robuxformat">
-					<option value="option1">"Robux" ("worth")</option>
-					<option value="option2">"worth"</option>
-				  </select>
-		  </label>
-		</p>
-	</body>
-	<script src="popup.js"></script>
+    <!--  Settings  -->
+    <div style="margin-top: 55px">
+        <span class="title">Settings</span><br>
+        <div class="setting-div">
+            <span class="text">Replace Robux Amount</span>
+            <input type="checkbox" id="replace" class="checkbox">
+        </div>
+        <div class="setting-div">
+            <span class="text">Replace Everything Else</span>
+            <input type="checkbox" id="replace-everything" class="checkbox">
+        </div>
+<!--        <div class="setting-div">-->
+<!--            <span class="text">Replace Gamepasses</span>-->
+<!--            <input type="checkbox" id="replace-gp" class="checkbox">-->
+<!--        </div>-->
+<!--        <div class="setting-div">-->
+<!--            <span class="text">Replace Clothing</span>-->
+<!--            <input type="checkbox" id="replace-c" class="checkbox">-->
+<!--        </div>-->
+<!--        <div class="setting-div">-->
+<!--            <span class="text">Replace Currency</span>-->
+<!--            <input type="checkbox" id="replace-cu" class="setting checkbox">-->
+<!--        </div>-->
+        <br>
+        <div class="setting-div">
+            <span class="text">Conversion Currency</span>
+            <select class="dropdown" id="currency" style="margin-left: 10px; background: #16a34a; color: white"></select>
+        </div>
+        <br>
+        <div>
+            <span class="text">Layout</span>
+            <input id="layout" style="background: #374151" type="text" placeholder="$ Worth" class="text-box">
+        </div>
+    </div>
+</div>
+</body>
 </html>
